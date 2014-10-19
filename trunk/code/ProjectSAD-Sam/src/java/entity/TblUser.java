@@ -45,6 +45,8 @@ public class TblUser implements Serializable {
     @Basic(optional = false)
     @Column(name = "score")
     private int score;
+    @Column(name = "is_admin")
+    private int isAdmin;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private List<TblSession> tblSessionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
