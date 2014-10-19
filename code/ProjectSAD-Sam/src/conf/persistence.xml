@@ -21,6 +21,7 @@
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.connection.password" value="sad@2812"/>
       <property name="hibernate.connection.url" value="jdbc:mysql://128.199.209.247:3306/cungonbai_data?zeroDateTimeBehavior=convertToNull"/>
+      <!--<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/cungonbai_data?zeroDateTimeBehavior=convertToNull"/>-->
     </properties>
   </persistence-unit>
 </persistence>
