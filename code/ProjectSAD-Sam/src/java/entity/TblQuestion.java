@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 //ORDER BY RANDOM()
 //LIMIT 1
     @NamedQuery(name = "TblQuestion.findAll", query = "SELECT t FROM TblQuestion t"),
-     @NamedQuery(name = "TblQuestion.findRandom", query = "SELECT t FROM TblQuestion t ORDER BY RAND()"),
+     @NamedQuery(name = "TblQuestion.findRandom", query = "SELECT t FROM TblQuestion t WHERE t.subjectId.subjectId = :subjectId ORDER BY RAND()"),
     @NamedQuery(name = "TblQuestion.findBySubjectId", query = "SELECT t FROM TblQuestion t WHERE t.subjectId = :subjectId"),
     @NamedQuery(name = "TblQuestion.findByQuestionId", query = "SELECT t FROM TblQuestion t WHERE t.questionId = :questionId")})
 public class TblQuestion implements Serializable {
