@@ -14,7 +14,5 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        subject id : ${requestScope.subject.subjectId}</br>
-        subject Name : ${requestScope.subject.subjectName}</br>
     </body>
 </html>
