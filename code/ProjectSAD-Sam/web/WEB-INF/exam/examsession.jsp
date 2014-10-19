@@ -15,9 +15,17 @@
     <body>
         <h1>Exam</h1>
         <form>
-            <c:forEach var="question" items="${lstQuestion}">
+            <c:forEach var="question" items="${lstQuestion}" varStatus="index">
                 ${question.content} </br>
                 <c:forEach var="answer" items="${question.tblAnswerList}">
+                        <c:choose>
+                            <c:when test="${lstType[index.count] eq 'checkBox'}">
+                            <input type="checkbox" name="" value="OFF" />    
+                        </c:when>
+                        <c:otherwise>
+                            <input type="radio" name="" value="" />  
+                        </c:otherwise>
+                    </c:choose>
                     ${answer.content} </br>
                 </c:forEach>
             </c:forEach>
