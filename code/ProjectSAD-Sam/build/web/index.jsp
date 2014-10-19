@@ -14,8 +14,7 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <c:forEach var="test" items="${requestScope.listTest}">
-            ${test.id},${test.testName}</br>
-    </c:forEach>
+        subject id : ${requestScope.subject.subjectId}</br>
+        subject Name : ${requestScope.subject.subjectName}</br>
     </body>
 </html>
