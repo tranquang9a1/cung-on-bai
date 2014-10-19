@@ -5,6 +5,10 @@
         <servlet-class>controller.TestServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>controller.UserServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AnswerServlet</servlet-name>
         <servlet-class>controller.AnswerServlet</servlet-class>
     </servlet>
@@ -13,8 +17,8 @@
         <servlet-class>controller.QuestionServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/TestServlet</url-pattern>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/user</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AnswerServlet</servlet-name>

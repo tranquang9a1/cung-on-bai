@@ -59,10 +59,11 @@ public class TblUser implements Serializable {
         this.userId = userId;
     }
 
-    public TblUser(Integer userId, String username, int score) {
+    public TblUser(String username, int score, int isAdmin) {
         this.userId = userId;
         this.username = username;
         this.score = score;
+        this.isAdmin = isAdmin;
     }
 
     public Integer getUserId() {
@@ -87,6 +88,14 @@ public class TblUser implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @XmlTransient
