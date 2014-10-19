@@ -8,12 +8,16 @@ import dao.QuestionDao;
 import dao.SubjectDao;
 import entity.TblQuestion;
 import entity.TblSubject;
+import entity.TblUser;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import utils.ExamUtils;
 
 /**
  *
@@ -33,33 +37,50 @@ public class ExamServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        TblUser user = (TblUser) session.getAttribute("user"); //TODO: check login or not
         String action = request.getParameter("action");
         if (action == null || action.isEmpty()) {
             SubjectDao daoSubject = new SubjectDao();
             List<TblSubject> lstSubject = daoSubject.getListAllSubject();
             request.setAttribute("lstSubject", lstSubject);
-            request.getRequestDispatcher("WEB-INF/exam/exam.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/exam/exam.jsp").
+                    forward(request, response);
         } else {
             if (action.equals("start")) {
-                String subject = request.getParameter("subject");
+                String stringSubject = request.getParameter("subject");
                 String question = request.getParameter("numberQuestion");
                 String isFavoriteQS = request.getParameter("isFavoriteQS");
                 int numberQuestion = 0;
+                int subjectId = 0;
                 try {
                     numberQuestion = Integer.parseInt(question);
+                    subjectId = Integer.parseInt(stringSubject);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
                 QuestionDao daoQuestion = new QuestionDao();
-                List<TblQuestion> lstQuestion = daoQuestion.getListRandom(numberQuestion);
+                List<TblQuestion> lstQuestion =
+                        daoQuestion.getListRandom(numberQuestion, subjectId);
+                List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
                 request.setAttribute("lstQuestion", lstQuestion);
-                request.getRequestDispatcher("WEB-INF/exam/examsession.jsp").forward(request, response);
+                request.setAttribute("lstType", lstType);
+                request.getRequestDispatcher("WEB-INF/exam/examsession.jsp").
+                        forward(request, response);
 
             } else {
                 if (action.equals("submit")) {
+                    Date startTime;
+                    Date date = new Date();
+//                    Date start = date.getTime();
+                    List<TblQuestion> lstQuestion = (List<TblQuestion>) request.getAttribute("lstQuestion");
+                    //create new Session
+                    int userId = user.getUserId();
+                    int subjectId = lstQuestion.get(0).getSubjectId().getSubjectId();
+                    
                 }
-            }
 
+            }
         }
     }
 
