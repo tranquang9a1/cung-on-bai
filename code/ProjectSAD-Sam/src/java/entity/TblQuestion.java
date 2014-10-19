@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,8 +31,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "tbl_question")
 @XmlRootElement
-@NamedQueries({
+@NamedQueries({ 
+//    SELECT column FROM table
+//ORDER BY RANDOM()
+//LIMIT 1
     @NamedQuery(name = "TblQuestion.findAll", query = "SELECT t FROM TblQuestion t"),
+     @NamedQuery(name = "TblQuestion.findRandom", query = "SELECT t FROM TblQuestion t ORDER BY RAND()"),
     @NamedQuery(name = "TblQuestion.findBySubjectId", query = "SELECT t FROM TblQuestion t WHERE t.subjectId = :subjectId"),
     @NamedQuery(name = "TblQuestion.findByQuestionId", query = "SELECT t FROM TblQuestion t WHERE t.questionId = :questionId")})
 public class TblQuestion implements Serializable {
@@ -52,7 +57,7 @@ public class TblQuestion implements Serializable {
     private List<TblSessionQuestion> tblSessionQuestionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
     private List<TblFavorite> tblFavoriteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId" , fetch = FetchType.LAZY)
     private List<TblAnswer> tblAnswerList;
 
     public TblQuestion() {
