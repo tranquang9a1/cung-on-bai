@@ -5,11 +5,18 @@
 package dao;
 
 import entity.TblSubject;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
  * @author khangtnse60992
  */
 public class SubjectDao extends BaseDao<TblSubject>{
+    public List<TblSubject> getListAllSubject(){
+        Query query = null;
+        query = em.createNamedQuery("TblSubject.findAll");
+        return query.getResultList();
+    }
     
 }
