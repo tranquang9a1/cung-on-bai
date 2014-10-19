@@ -23,7 +23,7 @@
                     <td>
                         <select name="subject">
                             <c:forEach var="lst" items="${lstSubject}">
-                                  <option>${lst.subjectName}</option>
+                                <option value="${lst.subjectId}">${lst.subjectName}</option>
                             </c:forEach>
                         </select> 
                     </td>
@@ -51,7 +51,6 @@
                     </td>
                 </tr>
             </table>
-           
         </form>
     </body>
 </html>
