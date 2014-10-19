@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/ProjectSAD-Sam">
-    <Resource name="jdbc/SADDB"  auth="Container" type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver"
+<!--    <Resource name="jdbc/SADDB"  auth="Container" type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://128.199.209.247:3306/SAD" username="sadgroup3" password="sad@2812"          
-    />
+    />-->
 </Context>

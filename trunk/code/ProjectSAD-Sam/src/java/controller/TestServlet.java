@@ -5,7 +5,9 @@
 package controller;
 
 import dao.BaseDao;
+import dao.SubjectDao;
 import dto.TestClass;
+import entity.TblSubject;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -31,9 +33,9 @@ public class TestServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        BaseDao baseDao = new BaseDao();
-        List<TestClass> listTest = baseDao.getAllTest();
-        request.setAttribute("listTest", listTest);
+        SubjectDao subjectDao = new SubjectDao();
+        TblSubject tblSubject = subjectDao.findById(TblSubject.class, 1);
+        request.setAttribute("subject", tblSubject);
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
