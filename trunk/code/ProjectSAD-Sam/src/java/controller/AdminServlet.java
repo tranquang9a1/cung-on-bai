@@ -6,20 +6,20 @@ package controller;
 
 import dao.UserDao;
 import entity.TblUser;
-import helper.CMSLoginChecker;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import utils.Constants;
 
 /**
  *
  * @author dinhquangtrung
  */
-public class UserServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -33,30 +33,25 @@ public class UserServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String action = request.getParameter("action");
         if (action != null) {
-            if (action.equals("login")) {
-                doLogin(request, response);
-            } else if (action.equals("logout")) {
-                doLogout(request, response);
+            if (action.equals("create")) {
+                createNewUser(request, response);
+            } else if (action.equals("delete")) {
+                deleteUser(request, response);
+            } else if (action.equals("setadmin")) {
+                setAdmin(request, response, 1);
+            } else if (action.equals("removeadmin")) {
+                setAdmin(request, response, 0);
+                   
             } else {
-                // No action specific, redirect to login page
-                response.sendRedirect(Constants.URL_USER);
+                // Redirect to default page
+                response.sendRedirect(Constants.URL_ADMIN);
             }
         } else {
-            // Default page, show login form
-
-
-            HttpSession session = request.getSession(true);
-            // Check if user is already logged in, redirect to home page
-            TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
-            if (user != null) {
-                response.sendRedirect(Constants.URL_HOME);
-                return;
-            }
-
-            request.getRequestDispatcher(Constants.JSP_LOGIN)
-                    .forward(request, response);
+            // List all user
+            listAllUser(request, response);
         }
     }
 
@@ -101,55 +96,69 @@ public class UserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void doLogin(HttpServletRequest request,
+    private void createNewUser(HttpServletRequest request,
             HttpServletResponse response) throws IOException, ServletException {
-        HttpSession session = request.getSession(true);
+        UserDao dao = new UserDao();
 
-        // If this line is reached, user is not logged in yet
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String message = "";
         if (username == null || username.equals("")) {
-            message += "Vui lòng nhập tài khoản CMS!<br/>";
+            message += "Vui lòng nhập tên tài khoản.";
         }
-        if (password == null || password.equals("")) {
-            message += "Vui lòng nhập mật khẩu!<br/>";
-        }
-        if (!CMSLoginChecker.checkLogin(username, password)) {
-            // Login failed
-            message += "Sai tài khoản hoặc mật khẩu!<br/>";
-        }
-
         if (message.equals("")) {
-            // Login success
-
-            // Check if user is already exists in database or not
-            UserDao dao = new UserDao();
-            TblUser user = dao.getUserByUsername(username);
-
-            // If user is not exists yet, create new
-            if (user == null) {
-                user = new TblUser(username, 0, 0);
-                dao.insert(user);
-            }
-
-            // Set user to session
-            session.setAttribute(Constants.VAR_SESSION_USER, user);
-
-            response.sendRedirect(Constants.URL_HOME);
+            dao.insert(new TblUser(username, 0, 0));
+            response.sendRedirect(Constants.URL_ADMIN);
         } else {
-            // Something wrong
             request.setAttribute("message", message);
-            request.setAttribute("backUrl", Constants.URL_USER);
+            request.setAttribute("backUrl", Constants.URL_ADMIN);
             request.getRequestDispatcher(Constants.JSP_ERROR)
                     .forward(request, response);
         }
     }
 
-    private void doLogout(HttpServletRequest request,
+    private void listAllUser(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        UserDao dao = new UserDao();
+
+        List<TblUser> users = dao.getAllUser();
+        request.setAttribute("users", users);
+        request.getRequestDispatcher(Constants.JSP_ADMIN)
+                .forward(request, response);
+    }
+
+    private void deleteUser(HttpServletRequest request, 
             HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        session.invalidate();
-        response.sendRedirect(Constants.URL_USER);
+
+        String userId = request.getParameter("id");
+        int id = 0;
+        try {
+            id = Integer.parseInt(userId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        if (id != 0) {
+            UserDao dao = new UserDao();
+            TblUser user = dao.findById(TblUser.class, id);
+            dao.remove(user);
+        }
+        response.sendRedirect(Constants.URL_ADMIN);
+    }
+
+    private void setAdmin(HttpServletRequest request, 
+            HttpServletResponse response, int isAdmin) throws IOException {
+        
+        String userId = request.getParameter("id");
+        int id = 0;
+        try {
+            id = Integer.parseInt(userId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        if (id != 0) {
+            UserDao dao = new UserDao();
+            TblUser user = dao.findById(TblUser.class, id);
+            user.setIsAdmin(isAdmin);
+        }
+        response.sendRedirect(Constants.URL_ADMIN);
     }
 }
