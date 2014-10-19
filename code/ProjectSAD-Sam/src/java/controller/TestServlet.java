@@ -34,7 +34,7 @@ public class TestServlet extends HttpServlet {
 //        BaseDao baseDao = new BaseDao();
 //        List<TestClass> listTest = baseDao.getAllTest();
 //        request.setAttribute("listTest", listTest);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/insertQuestion.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

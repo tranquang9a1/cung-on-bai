@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
-    Document   : index
-    Created on : Oct 8, 2014, 3:08:24 PM
+    Document   : questionAdminView
+    Created on : Oct 19, 2014, 11:34:10 AM
     Author     : khangtnse60992
 --%>
 
@@ -13,7 +13,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-<!--        <a href="WEB-INF/insertQuestion.jsp">insert Question</a>    -->
+        <h1>Question</h1>
+        <c:forEach var="question" items="${requestScope.questions}">
+            ${status},${question.content}--> <a href="">showDetail</a>
+        </c:forEach>
+            <a href="insertQuestion.jsp">insert Question</a>    
     </body>
 </html>

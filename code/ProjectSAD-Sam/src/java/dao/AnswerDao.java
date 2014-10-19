@@ -20,4 +20,15 @@ public class AnswerDao extends BaseDao<TblAnswer>{
         query.setParameter("questionId", questionId);
         return query.getResultList();      
     }
+    public void insertAnswer(int[] point,String[] content , TblQuestion tblQuestion) {
+        TblAnswer answer = null;
+        for(int i = 0 ; i < content.length; i++) {
+            answer = new TblAnswer();
+            answer.setContent(content[i]);
+            answer.setPoint(point[i]);
+            answer.setQuestionId(tblQuestion);
+            insert(answer);
+        }
+        
+    }
 }

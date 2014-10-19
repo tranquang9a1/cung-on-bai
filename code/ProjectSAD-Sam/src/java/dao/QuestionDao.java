@@ -15,9 +15,10 @@ import javax.persistence.Query;
  */
 public class QuestionDao extends BaseDao<TblQuestion>{
     
-    public List<TblQuestion> getListQuestion(TblSubject subject, int from , int to) {
+    public List<TblQuestion> getListQuestion(int subject, int from , int to) {
         Query query = null;
-        query = em.createNamedQuery("TblAnswer.findByAnswerId");
+        query = em.createNamedQuery("TblQuestion.findBySubjectId");
+        query.setParameter("subjectId", subject);
         query.setFirstResult(from);
         query.setMaxResults(to);
         return query.getResultList();
