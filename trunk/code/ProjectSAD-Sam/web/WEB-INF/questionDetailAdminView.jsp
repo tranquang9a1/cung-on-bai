@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
-    Document   : index
-    Created on : Oct 8, 2014, 3:08:24 PM
+    Document   : questionDetailAdminView
+    Created on : Oct 19, 2014, 1:01:54 PM
     Author     : khangtnse60992
 --%>
 
@@ -14,6 +14,8 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-<!--        <a href="WEB-INF/insertQuestion.jsp">insert Question</a>    -->
+        <c:forEach var="answer" items="${requestScope.question.tblAnswerList}">
+            ${answer.content}
+        </c:forEach>
     </body>
 </html>
