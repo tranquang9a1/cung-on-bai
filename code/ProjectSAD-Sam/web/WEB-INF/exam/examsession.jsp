@@ -19,18 +19,21 @@
                 ${question.content} </br>
                 <c:forEach var="answer" items="${question.tblAnswerList}">
                         <c:choose>
-                            <c:when test="${lstType[index.count] eq 'checkBox'}">
-                            <input type="checkbox" name="" value="OFF" />    
+                            <c:when test="${lstType[index.count-1] eq 'checkBox'}">
+                            <input type="checkbox" name="answer+${question.questionId}" 
+                                   value="${answer.answerId}" checked="false" />    
                         </c:when>
                         <c:otherwise>
-                            <input type="radio" name="" value="" />  
+                            <input type="radio" name="answer+${question.questionId}" 
+                                   value="${answer.answerId}" checked="false"/>  
                         </c:otherwise>
                     </c:choose>
                     ${answer.content} </br>
                 </c:forEach>
             </c:forEach>
                     <input type="submit" value="Nộp bài"/>
-                    <input type="text" hidden="true" value="submit"/>
+                    <input type="text" name="action" hidden="true" value="submit"/>
+                    <c:set var="lstQuestion" value="${lstQuestion}" scope="request"></c:set>
         </form>
     </body>
 </html>
