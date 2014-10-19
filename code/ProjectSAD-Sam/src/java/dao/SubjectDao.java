@@ -14,9 +14,7 @@ import javax.persistence.Query;
  */
 public class SubjectDao extends BaseDao<TblSubject>{
     public List<TblSubject> getListAllSubject(){
-        Query query = null;
-        query = em.createNamedQuery("TblSubject.findAll");
+        Query query = em.createNamedQuery("TblSubject.findAll");
         return query.getResultList();
     }
-    
 }
