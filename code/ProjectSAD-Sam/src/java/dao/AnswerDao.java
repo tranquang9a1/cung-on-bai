@@ -4,6 +4,7 @@
  */
 package dao;
 
+import static dao.BaseDao.em;
 import entity.TblAnswer;
 import entity.TblQuestion;
 import java.util.ArrayList;
@@ -30,8 +31,13 @@ public class AnswerDao extends BaseDao<TblAnswer>{
             answer.setQuestionId(tblQuestion);
             insert(answer);
         }
-        
     }
+    
+    public TblAnswer getAnswerById(int id) {
+        Query query = em.createNamedQuery("TblAnswer.findByAnswerId");
+        return (TblAnswer) query.getSingleResult();
+    }
+    
     public List<TblAnswer> insertListAnswer(int[] point,String[] content , TblQuestion tblQuestion) {
         List<TblAnswer> tblAnswers = new ArrayList<TblAnswer>();
         TblAnswer answer = null;
@@ -54,6 +60,10 @@ public class AnswerDao extends BaseDao<TblAnswer>{
             answer.setQuestionId(tblQuestion);
             update(answer);
         }
-        
+    }
+   public TblAnswer findWrongAnswerByQuestionId(int questionId) {
+        Query query = em.createNamedQuery("TblAnswer.findWrongAnswerByQuestionId");
+        query.setParameter("questionId", questionId);
+        return (TblAnswer) query.getResultList().get(0);
     }
 }
