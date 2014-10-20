@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TblAnswer.findAll", query = "SELECT t FROM TblAnswer t"),
     @NamedQuery(name = "TblAnswer.findAllByQuestionId", query = "SELECT t FROM TblAnswer t where t.questionId = :questionId"),
     @NamedQuery(name = "TblAnswer.findByAnswerId", query = "SELECT t FROM TblAnswer t WHERE t.answerId = :answerId"),
+    @NamedQuery(name = "TblAnswer.findWrongAnswerByQuestionId", query = "SELECT t FROM TblAnswer t WHERE t.point = 0 and t.questionId.questionId = :questionId"),
     @NamedQuery(name = "TblAnswer.findByPoint", query = "SELECT t FROM TblAnswer t WHERE t.point = :point")})
 public class TblAnswer implements Serializable {
     private static final long serialVersionUID = 1L;
