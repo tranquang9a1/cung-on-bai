@@ -14,8 +14,10 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        ${requestScope.question.content}</br>
         <c:forEach var="answer" items="${requestScope.question.tblAnswerList}">
-            ${answer.content}
+            ${answer.content}</BR>
         </c:forEach>
+            <a href="QuestionServlet?action=updateQuestion&type=viewUpdatePage&questionId=${requestScope.question.questionId}">Update Question</a>    
     </body>
 </html>

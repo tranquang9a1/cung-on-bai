@@ -15,8 +15,9 @@
     <body>
         <h1>Question</h1>
         <c:forEach var="question" items="${requestScope.questions}">
-            ${status},${question.content}--> <a href="">showDetail</a>
+            ${index.count},${question.content}--> <a href="QuestionServlet?action=showDetail&id=${question.questionId}">show detail</a>
+            --<a href="QuestionServlet?action=deleteQuestion&id=${question.questionId}&subjectId=${param.subjectId}">Delete Question</a> </br>
         </c:forEach>
-            <a href="insertQuestion.jsp">insert Question</a>    
+        <a href="insertQuestion.jsp">insert Question</a>    
     </body>
 </html>
