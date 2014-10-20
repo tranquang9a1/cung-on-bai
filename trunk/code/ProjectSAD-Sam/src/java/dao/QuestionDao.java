@@ -23,8 +23,9 @@ public class QuestionDao extends BaseDao<TblQuestion>{
         query.setMaxResults(to);
         return query.getResultList();
     }
-    public List<TblQuestion> getListRandom(int number) {
+    public List<TblQuestion> getListRandom(int number, int subjectID) {
         Query query = em.createNamedQuery("TblQuestion.findRandom");
+        query.setParameter("subjectId", subjectID);
         query.setMaxResults(number);
         return query.getResultList();
     }
