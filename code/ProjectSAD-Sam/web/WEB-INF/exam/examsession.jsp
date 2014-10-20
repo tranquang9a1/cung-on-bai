@@ -14,26 +14,30 @@
     </head>
     <body>
         <h1>Exam</h1>
-        <form>
+        <form action="ExamServlet" method="POST">
             <c:forEach var="question" items="${lstQuestion}" varStatus="index">
                 ${question.content} </br>
-                <c:forEach var="answer" items="${question.tblAnswerList}">
+                <c:forEach var="answer"
+                           items="${question.tblAnswerList}" varStatus="indexAnswer">
                         <c:choose>
                             <c:when test="${lstType[index.count-1] eq 'checkBox'}">
-                            <input type="checkbox" name="answer+${question.questionId}" 
-                                   value="${answer.answerId}" checked="false" />    
+                            <input type="checkbox" 
+                               name="${answer.answerId}"  
+                                   value="${answer.answerId}" />    
                         </c:when>
                         <c:otherwise>
-                            <input type="radio" name="answer+${question.questionId}" 
-                                   value="${answer.answerId}" checked="false"/>  
+                            <input type="radio" 
+                              name="${answer.answerId}" 
+                                   value="${answer.answerId}" />  
                         </c:otherwise>
                     </c:choose>
                     ${answer.content} </br>
                 </c:forEach>
             </c:forEach>
+                    <c:set var="lstQuestion" value="${lstQuestion}" scope="session"></c:set>
                     <input type="submit" value="Nộp bài"/>
-                    <input type="text" name="action" hidden="true" value="submit"/>
-                    <c:set var="lstQuestion" value="${lstQuestion}" scope="request"></c:set>
+                    <input type="text" name="action" value="submit" hidden="true"/>
+                    <input type="text" name="startTime" value="${startTime}" hidden="true"/>
         </form>
     </body>
 </html>
