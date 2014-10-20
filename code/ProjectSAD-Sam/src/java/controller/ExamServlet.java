@@ -60,13 +60,13 @@ public class ExamServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 QuestionDao daoQuestion = new QuestionDao();
-                List<TblQuestion> lstQuestion =
-                        daoQuestion.getListRandom(numberQuestion, subjectId);
-                List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
-                request.setAttribute("lstQuestion", lstQuestion);
-                request.setAttribute("lstType", lstType);
-                request.getRequestDispatcher("WEB-INF/exam/examsession.jsp").
-                        forward(request, response);
+//                List<TblQuestion> lstQuestion =
+//                        daoQuestion.getListRandom(numberQuestion, subjectId);
+//                List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
+//                request.setAttribute("lstQuestion", lstQuestion);
+//                request.setAttribute("lstType", lstType);
+//                request.getRequestDispatcher("WEB-INF/exam/examsession.jsp").
+//                        forward(request, response);
 
             } else {
                 if (action.equals("submit")) {

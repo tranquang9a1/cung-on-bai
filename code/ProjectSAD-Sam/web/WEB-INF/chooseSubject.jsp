@@ -15,7 +15,7 @@
     <body>
         <h1>Hello World!</h1>
         <form action="QuestionServlet" method="POST">
-            <input type="text" name="type" value="insertPage" />
+            <input type="hidden" name="type" value="insertPage" />
             <select name="subjectId">
                 <c:forEach var="subject" items="${requestScope.subjects}">
                     <option value="${subject.subjectId}">${subject.subjectName}</option>
