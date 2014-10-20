@@ -115,7 +115,8 @@ public class UserServlet extends HttpServlet {
         if (password == null || password.equals("")) {
             message += "Vui lòng nhập mật khẩu!<br/>";
         }
-        if (!CMSLoginChecker.checkLogin(username, password)) {
+        CMSLoginChecker checker = new CMSLoginChecker();
+        if (!checker.checkLogin(username, password)) {
             // Login failed
             message += "Sai tài khoản hoặc mật khẩu!<br/>";
         }
