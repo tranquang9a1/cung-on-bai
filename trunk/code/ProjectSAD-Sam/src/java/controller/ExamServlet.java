@@ -4,12 +4,19 @@
  */
 package controller;
 
+import dao.AnswerDao;
 import dao.QuestionDao;
+import dao.SessionDao;
+import dao.SessionQuestionDao;
 import dao.SubjectDao;
+import entity.TblAnswer;
 import entity.TblQuestion;
+import entity.TblSession;
+import entity.TblSessionQuestion;
 import entity.TblSubject;
 import entity.TblUser;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -17,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import utils.Constants;
 import utils.ExamUtils;
 
 /**
@@ -38,7 +46,7 @@ public class ExamServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        TblUser user = (TblUser) session.getAttribute("user"); //TODO: check login or not
+        TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER); //TODO: check login or not
         String action = request.getParameter("action");
         if (action == null || action.isEmpty()) {
             SubjectDao daoSubject = new SubjectDao();
@@ -60,24 +68,73 @@ public class ExamServlet extends HttpServlet {
                     e.printStackTrace();
                 }
                 QuestionDao daoQuestion = new QuestionDao();
-//                List<TblQuestion> lstQuestion =
-//                        daoQuestion.getListRandom(numberQuestion, subjectId);
-//                List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
-//                request.setAttribute("lstQuestion", lstQuestion);
-//                request.setAttribute("lstType", lstType);
-//                request.getRequestDispatcher("WEB-INF/exam/examsession.jsp").
-//                        forward(request, response);
+                List<TblQuestion> lstQuestion =
+                        daoQuestion.getListRandom(numberQuestion, subjectId);
+                List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
+                long startTime = new Date().getTime();
+                request.setAttribute("startTime", startTime);
+                request.setAttribute("lstQuestion", lstQuestion);
+                request.setAttribute("lstType", lstType);
+                request.getRequestDispatcher("WEB-INF/exam/examsession.jsp").
+                        forward(request, response);
+
 
             } else {
                 if (action.equals("submit")) {
-                    Date startTime;
+                    String stringStartTime = request.getParameter("startTime");
+                    List<TblQuestion> lstQuestion =
+                            (List<TblQuestion>) session.getAttribute("lstQuestion");
+                    long startTime = 0;
+                    try {
+                        startTime = Long.parseLong(stringStartTime);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     Date date = new Date();
-//                    Date start = date.getTime();
-                    List<TblQuestion> lstQuestion = (List<TblQuestion>) request.getAttribute("lstQuestion");
+                    long endTime = date.getTime();
                     //create new Session
-                    int userId = user.getUserId();
-                    int subjectId = lstQuestion.get(0).getSubjectId().getSubjectId();
-                    
+                    TblSubject subject = lstQuestion.get(0).getSubjectId();
+                    int start = (int) (startTime / 1000L);
+                    int end = (int) (endTime / 1000L);
+                    SessionDao daoSession = new SessionDao();
+                    TblSession examSession = new TblSession(start, end, subject, user);
+                    daoSession.insert(examSession);
+                    //create list sesion-question
+                    List<TblSessionQuestion> lst = new ArrayList<TblSessionQuestion>();
+                    for (TblQuestion question : lstQuestion) {
+                        List<TblAnswer> lstAnswer = question.getTblAnswerList();
+                        int chooseAnswer = 0;
+                        // insert if user choose at least answer
+                        for (int i = 0; i < lstAnswer.size(); i++) {
+                            TblAnswer answer = lstAnswer.get(i);
+                            String param = answer.getAnswerId().toString();
+                            String answerId = request.getParameter(param);
+                            if (answerId != null && !answerId.isEmpty()) {
+                                chooseAnswer++;
+                                TblSessionQuestion session_question = new TblSessionQuestion();
+                                session_question.setSessionId(examSession);
+                                session_question.setQuestionId(question);
+                                session_question.setAnswerId(answer);
+                                SessionQuestionDao sessionQuestionDao = new SessionQuestionDao();
+                                sessionQuestionDao.insert(session_question);
+                                lst.add(session_question);
+                            }
+                        }
+                        // if user don't answer, add question with answer 0 point
+                        if (chooseAnswer == 0) {
+                            TblSessionQuestion session_question = new TblSessionQuestion();
+                            session_question.setSessionId(examSession);
+                            session_question.setQuestionId(question);
+                            AnswerDao daoAnswer = new AnswerDao();
+                            TblAnswer answerWrong = daoAnswer.findWrongAnswerByQuestionId(question.getQuestionId());
+                            session_question.setAnswerId(answerWrong);
+                            SessionQuestionDao sessionQuestionDao = new SessionQuestionDao();
+                            sessionQuestionDao.insert(session_question);
+                            lst.add(session_question);
+                        }
+                    }
+                    // set list of question, answer for session
+                    examSession.setTblSessionQuestionList(lst);
                 }
 
             }
