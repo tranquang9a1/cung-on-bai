@@ -69,6 +69,13 @@ public class TblSession implements Serializable {
         this.startedDate = startedDate;
     }
 
+    public TblSession(int endedDate, int startedDate, TblSubject subjectId, TblUser userId) {
+        this.endedDate = endedDate;
+        this.startedDate = startedDate;
+        this.subjectId = subjectId;
+        this.userId = userId;
+    }
+    
     public Integer getSessionId() {
         return sessionId;
     }
