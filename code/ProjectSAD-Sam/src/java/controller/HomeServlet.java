@@ -35,6 +35,8 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         if (user != null) {
+            
+            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
             request.getRequestDispatcher(Constants.JSP_HOME)
                     .forward(request, response);
         } else {

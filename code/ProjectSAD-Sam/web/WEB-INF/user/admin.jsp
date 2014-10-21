@@ -26,6 +26,7 @@
             <tr>
                 <td>ID</td>
                 <td>Tài khoản</td>
+                <td>Điểm</td>
                 <td>Role</td>
                 <td>Thao tác</td>
             </tr>
@@ -33,6 +34,7 @@
                 <tr>
                     <td>${user.userId}</td>
                     <td>${user.username}</td>
+                    <td>${user.score}</td>
                     <td>${user.isAdmin == 1 ? "<span style='color: red'>Admin</span>" : "User"}</td>
                     <td>
                         <c:choose>
@@ -54,5 +56,8 @@
             <input type="hidden" name="action" value="create"/>
             <input type="submit" value="Thêm user mới"/>
         </form>
+        <p>
+            <a href="user">Back</a>
+        </p>
     </body>
 </html>
