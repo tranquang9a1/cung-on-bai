@@ -33,6 +33,7 @@
                             <label for="accountname"><span class="dslabel">Tài khoản CMS</span></label>
                             <font color="#ff1102"></font></font><br>
                             <font size="2"><input size="30" autocapitalize="off" autocorrect="off" maxlength="128"
+                                                  value="${username}"
                                                   id="accountname" type="text" value=""
                                                   name="username" placeholder="Tài khoản CMS"></font></font>
 
@@ -52,6 +53,7 @@
                             </font>
                             <br>
                             <input size="30" autocapitalize="off" autocorrect="off" id="accountpassword" type="password"
+                                   value="${password}"
                                    name="password" placeholder="Password"><a class="btn-signin">Sign In</a><input
                                    border="0" width="0" height="0" type="image" name="1.Continue"
                                    src="img/spacer.gif">
@@ -122,6 +124,9 @@
                 $('.box-msg.error').html('');
                 $('#loadingImg').show();
             }
+        });
+        $(function () {
+           $('#accountname').focus(); 
         });
     </script>
 </div>

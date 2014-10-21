@@ -140,6 +140,8 @@ public class UserServlet extends HttpServlet {
         } else {
             // Something wrong
             request.setAttribute("errorMessage", message);
+            request.setAttribute("username", username);
+            request.setAttribute("password", password);
             request.getRequestDispatcher(Constants.JSP_LOGIN)
                     .forward(request, response);
         }
