@@ -41,7 +41,7 @@ public class TblAnswer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "answer_id")
+    @Column(name = "answer_id",columnDefinition = "serial")
     private Integer answerId;
     @Basic(optional = false)
     @Lob

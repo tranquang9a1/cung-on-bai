@@ -38,8 +38,8 @@ public class TblSessionQuestion implements Serializable {
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
     @ManyToOne(optional = false)
     private TblSession sessionId;
-    @JoinColumn(name = "answer_id", referencedColumnName = "answer_id")
-    @ManyToOne(optional = false)
+    @JoinColumn(name = "answer_id", referencedColumnName = "answer_id", nullable = true)
+    @ManyToOne(optional = true)
     private TblAnswer answerId;
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
     @ManyToOne(optional = false)

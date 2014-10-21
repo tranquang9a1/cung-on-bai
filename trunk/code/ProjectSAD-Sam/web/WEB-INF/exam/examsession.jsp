@@ -22,12 +22,12 @@
                         <c:choose>
                             <c:when test="${lstType[index.count-1] eq 'checkBox'}">
                             <input type="checkbox" 
-                               name="${answer.answerId}"  
+                               name="${question.questionId}"  
                                    value="${answer.answerId}" />    
                         </c:when>
                         <c:otherwise>
                             <input type="radio" 
-                              name="${answer.answerId}" 
+                              name="${question.questionId}" 
                                    value="${answer.answerId}" />  
                         </c:otherwise>
                     </c:choose>
