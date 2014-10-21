@@ -142,7 +142,7 @@ public class QuestionServlet extends HttpServlet {
                         return;
                     }
                 }
-                List<TblAnswer> tblAnswers = answerDao.insertListAnswer(point, answerContent, tblQuestion);
+                List<TblAnswer> tblAnswers = answerDao.getListAnswer(point, answerContent, tblQuestion);
                 tblQuestion.setTblAnswerList(tblAnswers);
                 // insert Question and return question
                 tblQuestion = questionDao.insert(tblQuestion);
@@ -222,8 +222,10 @@ public class QuestionServlet extends HttpServlet {
                 AnswerDao answerDao = new AnswerDao();
                 TblQuestion tblQuestion = questionDao.findById(TblQuestion.class, id);
                 tblQuestion.setContent(questionContent);
+                List<TblAnswer> tblAnswers = answerDao.getListAnswer(answerId, point, answerContent, tblQuestion);
+                tblQuestion.setTblAnswerList(tblAnswers);
                 tblQuestion = questionDao.update(tblQuestion);
-                answerDao.updateAnswer(answerId, point, answerContent, tblQuestion);
+                //answerDao.updateAnswer(answerId, point, answerContent, tblQuestion);
                 response.sendRedirect("QuestionServlet?action=showDetail&id=" + tblQuestion.getQuestionId());
                 return;
             }
