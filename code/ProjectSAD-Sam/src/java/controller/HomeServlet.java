@@ -4,9 +4,12 @@
  */
 package controller;
 
+import dao.SubjectDao;
+import entity.TblSubject;
 import entity.TblUser;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +38,14 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         if (user != null) {
-            
+            // User information from session
             request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
+            
+            // Get subjects
+            SubjectDao daoSubject = new SubjectDao();
+            List<TblSubject> lstSubject = daoSubject.getListAllSubject();
+            request.setAttribute("lstSubject", lstSubject);
+            
             request.getRequestDispatcher(Constants.JSP_HOME)
                     .forward(request, response);
         } else {

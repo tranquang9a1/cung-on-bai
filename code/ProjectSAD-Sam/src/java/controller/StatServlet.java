@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import utils.Constants;
 
 /**
@@ -94,25 +95,35 @@ public class StatServlet extends HttpServlet {
 
     private void listAllUser(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        UserDao dao = new UserDao();
-        List<TblUser> users = dao.getAllUser();
-        Collections.sort(users, new Comparator<TblUser>() {
-            @Override
-            public int compare(TblUser user1, TblUser user2) {
-                if (user1.getScore() < user2.getScore()) {
-                    return 1;
-                } else {
-                    if (user1.getScore() == user2.getScore()) {
-                        return 0;
+        HttpSession session = request.getSession(true);
+        TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
+        if (user != null) {
+            // User information from session
+            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
+
+            UserDao dao = new UserDao();
+            List<TblUser> users = dao.getAllUser();
+            Collections.sort(users, new Comparator<TblUser>() {
+                @Override
+                public int compare(TblUser user1, TblUser user2) {
+                    if (user1.getScore() < user2.getScore()) {
+                        return 1;
                     } else {
-                        return -1;
+                        if (user1.getScore() == user2.getScore()) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
                     }
                 }
-            }
-        });
-        request.setAttribute("users", users);
-        request.getRequestDispatcher(Constants.JSP_STAT)
-                .forward(request, response);
+            });
+            request.setAttribute("users", users);
+            request.setAttribute("title", "Thống kê");
+            request.getRequestDispatcher(Constants.JSP_STAT)
+                    .forward(request, response);
+        } else {
+            response.sendRedirect(Constants.URL_USER);
+        }
     }
 
     private void viewDetail(HttpServletRequest request,
