@@ -116,7 +116,7 @@ public class UserServlet extends HttpServlet {
             message += "Vui lòng nhập mật khẩu!<br/>";
         }
         CMSLoginChecker checker = new CMSLoginChecker();
-        if (!checker.checkLogin(username, password)) {
+        if (message.equals("") && !checker.checkLogin(username, password)) {
             // Login failed
             message += "Sai tài khoản hoặc mật khẩu!<br/>";
         }
@@ -136,13 +136,11 @@ public class UserServlet extends HttpServlet {
 
             // Set user to session
             session.setAttribute(Constants.VAR_SESSION_USER, user);
-
             response.sendRedirect(Constants.URL_HOME);
         } else {
             // Something wrong
-            request.setAttribute("message", message);
-            request.setAttribute("backUrl", Constants.URL_USER);
-            request.getRequestDispatcher(Constants.JSP_ERROR)
+            request.setAttribute("errorMessage", message);
+            request.getRequestDispatcher(Constants.JSP_LOGIN)
                     .forward(request, response);
         }
     }
