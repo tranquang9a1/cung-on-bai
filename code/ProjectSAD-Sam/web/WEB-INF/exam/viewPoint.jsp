@@ -16,6 +16,14 @@
         <table>
             <tr>
                 <td>
+                    Số câu hỏi mà bạn đã làm là :
+                </td>
+                <td>
+                    ${numberQuestion}
+                </td>
+            </tr>
+            <tr>
+                <td>
                     Số điểm bạn đạt được là:
                 </td>
                 <td>
