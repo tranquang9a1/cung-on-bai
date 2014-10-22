@@ -19,7 +19,7 @@
     <div id="scroll-div">
         <ul id='subject-list' class="menu bg">
             <c:forEach var="lst" items="${lstSubject}">
-                <li value="${lst.subjectId}"><a href="javascript:selectSubject('${lst.subjectName}')">${lst.subjectName}</a></li>
+                <li value="${lst.subjectId}"><a href="javascript:selectSubject('${lst.subjectName}', ${lst.subjectId})">${lst.subjectName}</a></li>
                 </c:forEach>
         </ul>
         <div style="display: none" id='question-num-select' class="selected-subject">
@@ -38,17 +38,16 @@
     <input type="text" hidden="true" name="action" value="start"/>
 </form>
 <script>
-    function selectSubject(subject) {
+    function selectSubject(subject, id) {
         $('#selected-subject').text(subject);
+        $('#txtSubject').val(id);
         $('#subject-list').slideUp(function() {
             $('#question-num-select').fadeIn();
         });
         $('#subject-search').fadeOut();
     }
     function submitForm() {
-        $('#txtSubject').val($('#selected-subject').text());
         $('#txtNumberQuestion').val($('#txtNumbQuestion').val());
-
         $('#choose-subject-form').submit();
     }
 </script>
