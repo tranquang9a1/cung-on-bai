@@ -9,8 +9,9 @@
     <class>entity.TblSession</class>
     <class>entity.TblFavorite</class>
     <class>entity.TblAnswer</class>
+    <class>entity.TblMessage</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-<!--    <properties>
+    <!--    <properties>
       <property name="hibernate.connection.username" value="root"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.connection.password" value="123456"/>
