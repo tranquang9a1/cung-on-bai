@@ -9,6 +9,7 @@ import dao.QuestionDao;
 import dao.SessionDao;
 import dao.SessionQuestionDao;
 import dao.SubjectDao;
+import entity.DecoratorQuestion;
 import entity.TblAnswer;
 import entity.TblQuestion;
 import entity.TblSession;
@@ -53,24 +54,6 @@ public class ExamServlet extends HttpServlet {
         if (user != null) {
             String action = request.getParameter("action");
             if (action == null || action.isEmpty()) {
-//                SubjectDao daoSubject = new SubjectDao();
-//                QuestionDao daoQuestion = new QuestionDao();
-//                List<TblSubject> lstSubject = daoSubject.getListAllSubject();
-//                int[] lstNumberOfQuestion = new int[lstSubject.size()];
-//                for (int i = 0; i < lstSubject.size(); i++) {
-//                    int subjectId = lstSubject.get(i).getSubjectId();
-//                    List<TblQuestion> lst = daoQuestion.findBySubjectId(subjectId);
-//                    if (lst == null || lst.isEmpty()) {
-//                        lstNumberOfQuestion[i] = 0;
-//                    } else {
-//                        lstNumberOfQuestion[i] = lst.size();
-//                    }
-//                }
-//                request.setAttribute("lstNumberOfSubject", lstNumberOfQuestion);
-//                request.setAttribute("lstSubject", lstSubject);
-//                request.getRequestDispatcher("WEB-INF/exam/exam.jsp").
-//                        forward(request, response);
-
                 response.sendRedirect(Constants.URL_HOME);
             }
             if (action != null && !action.isEmpty()) {
@@ -132,32 +115,33 @@ public class ExamServlet extends HttpServlet {
     private void start(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
-        if (user != null) {
-            // User information from session
-            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
-
-            String stringSubject = request.getParameter("subject");
-            String question = request.getParameter("numberQuestion");
-            int numberQuestion = 0;
-            int subjectId = 0;
-            try {
-                numberQuestion = Integer.parseInt(question);
-                subjectId = Integer.parseInt(stringSubject);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-            QuestionDao daoQuestion = new QuestionDao();
-            List<TblQuestion> lstQuestion =
-                    daoQuestion.getListRandom(numberQuestion, subjectId);
-            session.setAttribute("lstQuestion", lstQuestion);
-            List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
-            long startTime = new Date().getTime();
-            request.setAttribute("startTime", startTime);
-            request.setAttribute("lstType", lstType);
-        } else {
-            response.sendRedirect(Constants.URL_USER);
+        String stringSubject = request.getParameter("subject");
+        String stringQuestion = request.getParameter("numberQuestion");
+        int numberQuestion = 0;
+        int subjectId = 0;
+        try {
+            numberQuestion = Integer.parseInt(stringQuestion);
+            subjectId = Integer.parseInt(stringSubject);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
+        QuestionDao daoQuestion = new QuestionDao();
+        //random list of question
+        List<TblQuestion> lstQuestion =
+                daoQuestion.getListRandom(numberQuestion, subjectId);
+        List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
+        //user decorator partern
+        List<DecoratorQuestion> lstDecorator = new ArrayList<DecoratorQuestion>();
+        for (int i = 0; i < lstQuestion.size(); i++) {
+            TblQuestion question = lstQuestion.get(i);
+            String type = lstType.get(i);
+            DecoratorQuestion decoratorQuestion = new DecoratorQuestion(type, question);
+            lstDecorator.add(decoratorQuestion);
+        }
+        session.setAttribute("lstDecorator", lstDecorator);
+        long startTime = new Date().getTime();
+        request.setAttribute("startTime", startTime);
+        request.setAttribute("lstDecorator", lstDecorator);
     }
 
     private void submit(HttpServletRequest request, HttpServletResponse response)
@@ -165,8 +149,8 @@ public class ExamServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         String stringStartTime = request.getParameter("startTime");
-        List<TblQuestion> lstQuestion =
-                (List<TblQuestion>) session.getAttribute("lstQuestion");
+        List<DecoratorQuestion> lstQuestion =
+                (List<DecoratorQuestion>) session.getAttribute("lstDecorator");
         long startTime = 0;
         try {
             startTime = Long.parseLong(stringStartTime);
@@ -176,7 +160,7 @@ public class ExamServlet extends HttpServlet {
         Date date = new Date();
         long endTime = date.getTime();
         //create new Session
-        TblSubject subject = lstQuestion.get(0).getSubjectId();
+        TblSubject subject = lstQuestion.get(0).getQuestion().getSubjectId();
         int start = (int) (startTime / 1000L);
         int end = (int) (endTime / 1000L);
         SessionDao daoSession = new SessionDao();
@@ -184,8 +168,9 @@ public class ExamServlet extends HttpServlet {
         daoSession.insert(examSession);
         //create list sesion-question
         List<TblSessionQuestion> lst = new ArrayList<TblSessionQuestion>();
-        for (TblQuestion question : lstQuestion) {
+        for (DecoratorQuestion decoratorQuestion : lstQuestion) {
             // set list of question, answer for session
+            TblQuestion question = decoratorQuestion.getQuestion();
             String[] lstanswerID = request.getParameterValues(question.getQuestionId().toString());
             if (lstanswerID == null || lstanswerID.length == 0) {
                 TblAnswer answer = null;
