@@ -46,31 +46,44 @@ public class ExamServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
-         if (user == null) {
-            request.getRequestDispatcher(Constants.JSP_LOGIN).
-                    forward(request, response);
+        TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
+        if (user == null) {
+            response.sendRedirect(Constants.URL_USER);
         }
-        String action = request.getParameter("action");
-        if (action == null || action.isEmpty()) {
-            SubjectDao daoSubject = new SubjectDao();
-            List<TblSubject> lstSubject = daoSubject.getListAllSubject();
-            request.setAttribute("lstSubject", lstSubject);
-            request.getRequestDispatcher("WEB-INF/exam/exam.jsp").
-                    forward(request, response);
-        }
-        if (action != null && !action.isEmpty()) {
-            if (action.equals("start")) {
-                start(request, response);
-                request.getRequestDispatcher(Constants.JSP_EXAMSESSION).
+        if (user != null) {
+            String action = request.getParameter("action");
+            if (action == null || action.isEmpty()) {
+                SubjectDao daoSubject = new SubjectDao();
+                QuestionDao daoQuestion = new QuestionDao();
+                List<TblSubject> lstSubject = daoSubject.getListAllSubject();
+                int[] lstNumberOfQuestion = new int[lstSubject.size()];
+                for (int i = 0; i < lstSubject.size(); i++) {
+                    int subjectId = lstSubject.get(i).getSubjectId();
+                    List<TblQuestion> lst = daoQuestion.findBySubjectId(subjectId);
+                    if (lst == null || lst.isEmpty()) {
+                        lstNumberOfQuestion[i] = 0;
+                    } else {
+                        lstNumberOfQuestion[i] = lst.size();
+                    }
+                }
+                request.setAttribute("lstNumberOfSubject", lstNumberOfQuestion);
+                request.setAttribute("lstSubject", lstSubject);
+                request.getRequestDispatcher("WEB-INF/exam/exam.jsp").
                         forward(request, response);
-            } // end of if action start
-            if (action.equals("submit")) {
-                submit(request, response);
-                request.getRequestDispatcher(Constants.URL_POINT).
-                        forward(request, response);
-            } // end of if action submit
-        }
+            }
+            if (action != null && !action.isEmpty()) {
+                if (action.equals("start")) {
+                    start(request, response);
+                    request.getRequestDispatcher(Constants.JSP_EXAMSESSION).
+                            forward(request, response);
+                } // end of if action start
+                if (action.equals("submit")) {
+                    submit(request, response);
+                    request.getRequestDispatcher(Constants.URL_POINT).
+                            forward(request, response);
+                } // end of if action submit
+            }
+        } // end of else check user
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
