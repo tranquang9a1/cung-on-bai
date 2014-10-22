@@ -13,19 +13,19 @@
     <div class="center-content">
         <div id="scroll-div" class="wide">
             <div class="exam-session">
-                <c:forEach var="question" items="${lstQuestion}" varStatus="index">
-                    ${question.content} </br>
+                <c:forEach var="question" items="${lstDecorator}" varStatus="index">
+                    ${question.question.content} </br>
                     <c:forEach var="answer"
-                               items="${question.tblAnswerList}" varStatus="indexAnswer">
+                               items="${question.question.tblAnswerList}" varStatus="indexAnswer">
                         <c:choose>
-                            <c:when test="${lstType[index.count-1] eq 'checkBox'}">
+                            <c:when test="${question.type eq 'checkBox'}">
                                 <input type="checkbox" 
-                                       name="${question.questionId}"  
+                                       name="${question.question.questionId}"  
                                        value="${answer.answerId}" />    
                             </c:when>
                             <c:otherwise>
                                 <input type="radio" 
-                                       name="${question.questionId}" 
+                                       name="${question.question.questionId}" 
                                        value="${answer.answerId}" />  
                             </c:otherwise>
                         </c:choose>
@@ -33,7 +33,6 @@
                     </c:forEach>
                     <br/><br/>
                 </c:forEach>
-
             </div>
         </div>
         <p style="text-align: center; margin-top: 40px;">
