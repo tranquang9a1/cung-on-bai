@@ -14,7 +14,12 @@
     </head>
     <body>
         <h1>Exam</h1>
-        <form action="ExamServlet" method="POST">
+        <c:choose>
+            <c:when test="${empty lstQuestion}">
+                <p>Không có câu hỏi nào trong môn học này</p>
+            </c:when>
+            <c:otherwise>
+                <form action="ExamServlet" method="POST">
             <c:forEach var="question" items="${lstQuestion}" varStatus="index">
                 ${question.content} </br>
                 <c:forEach var="answer"
@@ -39,6 +44,8 @@
                     <input type="text" name="action" value="submit" hidden="true"/>
                     <input type="text" name="startTime" value="${startTime}" hidden="true"/>
         </form>
+            </c:otherwise>
+        </c:choose>
     </body>
 </html>
 
