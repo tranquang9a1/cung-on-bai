@@ -13,9 +13,9 @@ import javax.persistence.Query;
  *
  * @author khangtnse60992
  */
-public class QuestionDao extends BaseDao<TblQuestion>{
-    
-    public List<TblQuestion> getListQuestion(int subject, int from , int to) {
+public class QuestionDao extends BaseDao<TblQuestion> {
+
+    public List<TblQuestion> getListQuestion(int subject, int from, int to) {
         Query query = null;
         query = em.createNamedQuery("TblQuestion.findBySubjectId");
         query.setParameter("subjectId", subject);
@@ -23,6 +23,7 @@ public class QuestionDao extends BaseDao<TblQuestion>{
         query.setMaxResults(to);
         return query.getResultList();
     }
+
     public List<TblQuestion> getListRandom(int number, int subjectID) {
         Query query = em.createNamedQuery("TblQuestion.findRandom");
         query.setParameter("subjectId", subjectID);
@@ -30,4 +31,9 @@ public class QuestionDao extends BaseDao<TblQuestion>{
         return query.getResultList();
     }
 
+    public List<TblQuestion> findBySubjectId(int subjectId) {
+        Query query = em.createNamedQuery("TblQuestion.findBySubjectId");
+        query.setParameter("subjectId", subjectId);
+        return query.getResultList();
+    }
 }
