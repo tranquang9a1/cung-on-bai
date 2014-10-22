@@ -22,8 +22,8 @@
                     </td>
                     <td>
                         <select name="subject">
-                            <c:forEach var="lst" items="${lstSubject}">
-                                <option value="${lst.subjectId}">${lst.subjectName}</option>
+                            <c:forEach var="lst" items="${lstSubject}" varStatus="index">
+                                <option value="${lst.subjectId}">${lst.subjectName} - ${lstNumberOfSubject[index.count-1]}</option>
                             </c:forEach>
                         </select> 
                     </td>
