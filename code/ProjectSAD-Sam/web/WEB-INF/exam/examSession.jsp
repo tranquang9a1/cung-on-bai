@@ -6,38 +6,41 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Exam Session</title>
-    </head>
-    <body>
-        <h1>Exam</h1>
-        <form action="ExamServlet" method="POST">
-            <c:forEach var="question" items="${lstQuestion}" varStatus="index">
-                ${question.content} </br>
-                <c:forEach var="answer"
-                           items="${question.tblAnswerList}" varStatus="indexAnswer">
+<%@include file="../include/header.jsp" %>
+
+<%@include file="../include/sidebar.jsp" %>
+<form id="exam-form" action="ExamServlet" method="POST">
+    <div class="center-content">
+        <div id="scroll-div" class="wide">
+            <div class="exam-session">
+                <c:forEach var="question" items="${lstQuestion}" varStatus="index">
+                    ${question.content} </br>
+                    <c:forEach var="answer"
+                               items="${question.tblAnswerList}" varStatus="indexAnswer">
                         <c:choose>
                             <c:when test="${lstType[index.count-1] eq 'checkBox'}">
-                            <input type="checkbox" 
-                               name="${question.questionId}"  
-                                   value="${answer.answerId}" />    
-                        </c:when>
-                        <c:otherwise>
-                            <input type="radio" 
-                              name="${question.questionId}" 
-                                   value="${answer.answerId}" />  
-                        </c:otherwise>
-                    </c:choose>
-                    ${answer.content} </br>
+                                <input type="checkbox" 
+                                       name="${question.questionId}"  
+                                       value="${answer.answerId}" />    
+                            </c:when>
+                            <c:otherwise>
+                                <input type="radio" 
+                                       name="${question.questionId}" 
+                                       value="${answer.answerId}" />  
+                            </c:otherwise>
+                        </c:choose>
+                        ${answer.content} </br>
+                    </c:forEach>
+                    <br/><br/>
                 </c:forEach>
-            </c:forEach>
-                    <c:set var="lstQuestion" value="${lstQuestion}" scope="session"></c:set>
-                    <input type="submit" value="Nộp bài"/>
-                    <input type="text" name="action" value="submit" hidden="true"/>
-                    <input type="text" name="startTime" value="${startTime}" hidden="true"/>
-        </form>
-    </body>
-</html>
+
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px;">
+            <a class='button' href="javascript:$('#exam-form').submit();">Nộp bài</a>
+        </p>
+    </div>
+    <input type="text" name="action" value="submit" hidden="true"/>
+    <input type="text" name="startTime" value="${startTime}" hidden="true"/>
+</form>
+<%@include file="../include/footer.jsp" %>
