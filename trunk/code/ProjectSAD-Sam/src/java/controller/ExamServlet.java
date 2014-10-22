@@ -117,6 +117,11 @@ public class ExamServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         String stringSubject = request.getParameter("subject");
         String stringQuestion = request.getParameter("numberQuestion");
+        if (stringSubject == null || stringSubject.isEmpty()
+                && stringQuestion == null || stringQuestion.isEmpty()) {
+            request.setAttribute(Constants.CONST_MESSAGE, Constants.MESSAGE_WRONGINPUT );
+            request.setAttribute(Constants.CONST_BACKURL, Constants.JSP_ERROR);
+        } else {
         int numberQuestion = 0;
         int subjectId = 0;
         try {
@@ -142,6 +147,8 @@ public class ExamServlet extends HttpServlet {
         long startTime = new Date().getTime();
         request.setAttribute("startTime", startTime);
         request.setAttribute("lstDecorator", lstDecorator);
+        }
+       
     }
 
     private void submit(HttpServletRequest request, HttpServletResponse response)
