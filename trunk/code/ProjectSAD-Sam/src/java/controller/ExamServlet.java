@@ -64,6 +64,8 @@ public class ExamServlet extends HttpServlet {
                 } // end of if action start
                 if (action.equals("submit")) {
                     submit(request, response);
+                    // after submit, remove lstDecorator of session
+                    session.removeAttribute("lstDecorator");
                     request.getRequestDispatcher(Constants.URL_POINT).
                             forward(request, response);
                 } // end of if action submit
