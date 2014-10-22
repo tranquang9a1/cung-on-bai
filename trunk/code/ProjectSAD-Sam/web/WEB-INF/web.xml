@@ -28,6 +28,10 @@
         <servlet-name>ExamServlet</servlet-name>
         <servlet-class>controller.ExamServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExamPointServlet</servlet-name>
+        <servlet-class>controller.ExamPointServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
@@ -47,6 +51,14 @@
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExamServlet</servlet-name>
+        <url-pattern>/ExamServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExamPointServlet</servlet-name>
+        <url-pattern>/point</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ExamServlet</servlet-name>
