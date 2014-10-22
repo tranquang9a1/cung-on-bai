@@ -5,13 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Xem điểm</title>
-    </head>
-    <body>
+<%@include file="../include/header.jsp" %>
+
+<%@include file="../include/sidebar.jsp" %>
+<div class="center-content">
+    <div class="exam-session" style="width: 400px; margin: 0 auto;">
         <h1>Bạn đã làm xong bài</h1>
         <table>
             <tr>
@@ -31,5 +29,6 @@
                 </td>
             </tr>
         </table>
-    </body>
-</html>
+    </div>
+</div>
+<%@include file="../include/footer.jsp" %>

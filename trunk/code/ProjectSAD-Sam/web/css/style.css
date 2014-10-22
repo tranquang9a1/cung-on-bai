@@ -99,6 +99,10 @@ a:hover {
     height: 400px;
     overflow-x: auto;
 }
+#scroll-div.wide {
+    padding: 0 10px 0 0;
+    height: 550px;
+}
 #scroll-div ul li a {
     display: block;
     padding: 20px;
@@ -139,4 +143,13 @@ a:hover {
 
 .center {
     text-align: center;
+}
+
+.exam-session {
+    background: #fff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+    font-family: Arial;
+    color: black;
 }

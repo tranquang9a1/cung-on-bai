@@ -4,7 +4,9 @@
  */
 package controller;
 
+import dao.QuestionDao;
 import dao.SubjectDao;
+import entity.TblQuestion;
 import entity.TblSubject;
 import entity.TblUser;
 import java.io.IOException;
@@ -40,12 +42,24 @@ public class HomeServlet extends HttpServlet {
         if (user != null) {
             // User information from session
             request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
-            
+
             // Get subjects
             SubjectDao daoSubject = new SubjectDao();
+            QuestionDao daoQuestion = new QuestionDao();
             List<TblSubject> lstSubject = daoSubject.getListAllSubject();
+            int[] lstNumberOfQuestion = new int[lstSubject.size()];
+            for (int i = 0; i < lstSubject.size(); i++) {
+                int subjectId = lstSubject.get(i).getSubjectId();
+                List<TblQuestion> lst = daoQuestion.findBySubjectId(subjectId);
+                if (lst == null || lst.isEmpty()) {
+                    lstNumberOfQuestion[i] = 0;
+                } else {
+                    lstNumberOfQuestion[i] = lst.size();
+                }
+            }
+            request.setAttribute("lstNumberOfSubject", lstNumberOfQuestion);
             request.setAttribute("lstSubject", lstSubject);
-            
+
             request.getRequestDispatcher(Constants.JSP_HOME)
                     .forward(request, response);
         } else {

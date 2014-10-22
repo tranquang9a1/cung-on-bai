@@ -53,23 +53,25 @@ public class ExamServlet extends HttpServlet {
         if (user != null) {
             String action = request.getParameter("action");
             if (action == null || action.isEmpty()) {
-                SubjectDao daoSubject = new SubjectDao();
-                QuestionDao daoQuestion = new QuestionDao();
-                List<TblSubject> lstSubject = daoSubject.getListAllSubject();
-                int[] lstNumberOfQuestion = new int[lstSubject.size()];
-                for (int i = 0; i < lstSubject.size(); i++) {
-                    int subjectId = lstSubject.get(i).getSubjectId();
-                    List<TblQuestion> lst = daoQuestion.findBySubjectId(subjectId);
-                    if (lst == null || lst.isEmpty()) {
-                        lstNumberOfQuestion[i] = 0;
-                    } else {
-                        lstNumberOfQuestion[i] = lst.size();
-                    }
-                }
-                request.setAttribute("lstNumberOfSubject", lstNumberOfQuestion);
-                request.setAttribute("lstSubject", lstSubject);
-                request.getRequestDispatcher("WEB-INF/exam/exam.jsp").
-                        forward(request, response);
+//                SubjectDao daoSubject = new SubjectDao();
+//                QuestionDao daoQuestion = new QuestionDao();
+//                List<TblSubject> lstSubject = daoSubject.getListAllSubject();
+//                int[] lstNumberOfQuestion = new int[lstSubject.size()];
+//                for (int i = 0; i < lstSubject.size(); i++) {
+//                    int subjectId = lstSubject.get(i).getSubjectId();
+//                    List<TblQuestion> lst = daoQuestion.findBySubjectId(subjectId);
+//                    if (lst == null || lst.isEmpty()) {
+//                        lstNumberOfQuestion[i] = 0;
+//                    } else {
+//                        lstNumberOfQuestion[i] = lst.size();
+//                    }
+//                }
+//                request.setAttribute("lstNumberOfSubject", lstNumberOfQuestion);
+//                request.setAttribute("lstSubject", lstSubject);
+//                request.getRequestDispatcher("WEB-INF/exam/exam.jsp").
+//                        forward(request, response);
+
+                response.sendRedirect(Constants.URL_HOME);
             }
             if (action != null && !action.isEmpty()) {
                 if (action.equals("start")) {
@@ -130,24 +132,32 @@ public class ExamServlet extends HttpServlet {
     private void start(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        String stringSubject = request.getParameter("subject");
-        String question = request.getParameter("numberQuestion");
-        int numberQuestion = 0;
-        int subjectId = 0;
-        try {
-            numberQuestion = Integer.parseInt(question);
-            subjectId = Integer.parseInt(stringSubject);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
+        if (user != null) {
+            // User information from session
+            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
+
+            String stringSubject = request.getParameter("subject");
+            String question = request.getParameter("numberQuestion");
+            int numberQuestion = 0;
+            int subjectId = 0;
+            try {
+                numberQuestion = Integer.parseInt(question);
+                subjectId = Integer.parseInt(stringSubject);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            QuestionDao daoQuestion = new QuestionDao();
+            List<TblQuestion> lstQuestion =
+                    daoQuestion.getListRandom(numberQuestion, subjectId);
+            session.setAttribute("lstQuestion", lstQuestion);
+            List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
+            long startTime = new Date().getTime();
+            request.setAttribute("startTime", startTime);
+            request.setAttribute("lstType", lstType);
+        } else {
+            response.sendRedirect(Constants.URL_USER);
         }
-        QuestionDao daoQuestion = new QuestionDao();
-        List<TblQuestion> lstQuestion =
-                daoQuestion.getListRandom(numberQuestion, subjectId);
-        session.setAttribute("lstQuestion", lstQuestion);
-        List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
-        long startTime = new Date().getTime();
-        request.setAttribute("startTime", startTime);
-        request.setAttribute("lstType", lstType);
     }
 
     private void submit(HttpServletRequest request, HttpServletResponse response)

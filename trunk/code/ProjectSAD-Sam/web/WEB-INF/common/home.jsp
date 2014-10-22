@@ -18,8 +18,12 @@
     </div>
     <div id="scroll-div">
         <ul id='subject-list' class="menu bg">
-            <c:forEach var="lst" items="${lstSubject}">
-                <li value="${lst.subjectId}"><a href="javascript:selectSubject('${lst.subjectName}', ${lst.subjectId})">${lst.subjectName}</a></li>
+            <c:forEach var="lst" items="${lstSubject}" varStatus="index">
+                <li value="${lst.subjectId}">
+                    <a href="javascript:selectSubject('${lst.subjectName}', ${lst.subjectId})">
+                        ${lst.subjectName} (${lstNumberOfSubject[index.count-1]})
+                    </a>
+                </li>
                 </c:forEach>
         </ul>
         <div style="display: none" id='question-num-select' class="selected-subject">
