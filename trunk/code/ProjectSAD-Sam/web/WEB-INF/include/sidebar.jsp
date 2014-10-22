@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="leftmenu">
-    <h1 id="profile">Xin chào, ${user.username}!<br/>Bạn có <b>${user.score} điểm</b></h1>
+    <h1 id="profile">Xin chào, ${sessionScope.session_user.username}!<br/>Bạn có <b>${sessionScope.session_user.score} điểm</b></h1>
     <ul class="menu">
         <li>
             <a href="home">Ôn bài</a>
