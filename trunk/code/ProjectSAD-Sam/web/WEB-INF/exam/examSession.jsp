@@ -1,7 +1,7 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
-    Document   : examSession
-    Created on : Oct 21, 2014, 9:54:21 PM
+    Document   : examsession
+    Created on : Oct 19, 2014, 3:14:49 PM
     Author     : computer
 --%>
 
@@ -14,12 +14,7 @@
     </head>
     <body>
         <h1>Exam</h1>
-        <c:choose>
-            <c:when test="${empty lstQuestion}">
-                <p>Không có câu hỏi nào trong môn học này</p>
-            </c:when>
-            <c:otherwise>
-                <form action="ExamServlet" method="POST">
+        <form action="ExamServlet" method="POST">
             <c:forEach var="question" items="${lstQuestion}" varStatus="index">
                 ${question.content} </br>
                 <c:forEach var="answer"
@@ -44,8 +39,5 @@
                     <input type="text" name="action" value="submit" hidden="true"/>
                     <input type="text" name="startTime" value="${startTime}" hidden="true"/>
         </form>
-            </c:otherwise>
-        </c:choose>
     </body>
 </html>
-

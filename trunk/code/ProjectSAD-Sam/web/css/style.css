@@ -123,6 +123,20 @@ a:hover {
     border: 1px solid rgba(255,255,255,0.3);
     font-size: 25px;
 }
+.textbox.inline {
+    width: 100px;
+}
 .textbox:focus {
     outline: 0;
+}
+
+.button {
+    padding: 15px;
+    background-color: rgb(0, 187, 255);
+    border-radius: 10px;
+    font-size: 25px;
+}
+
+.center {
+    text-align: center;
 }

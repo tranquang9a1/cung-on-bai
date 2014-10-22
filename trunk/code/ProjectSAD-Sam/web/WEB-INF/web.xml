@@ -60,10 +60,6 @@
         <servlet-name>ExamPointServlet</servlet-name>
         <url-pattern>/point</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ExamServlet</servlet-name>
-        <url-pattern>/ExamServlet</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
