@@ -32,6 +32,10 @@
         <servlet-name>ExamPointServlet</servlet-name>
         <servlet-class>controller.ExamPointServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MessageServlet</servlet-name>
+        <servlet-class>controller.MessageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminServlet</servlet-name>
         <url-pattern>/admin</url-pattern>
@@ -59,6 +63,10 @@
     <servlet-mapping>
         <servlet-name>ExamPointServlet</servlet-name>
         <url-pattern>/point</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MessageServlet</servlet-name>
+        <url-pattern>/message</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
