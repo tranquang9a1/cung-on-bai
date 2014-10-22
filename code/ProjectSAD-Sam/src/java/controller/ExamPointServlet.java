@@ -65,7 +65,8 @@ public class ExamPointServlet extends HttpServlet {
             }
         }
         request.setAttribute("numberQuestion", mapPoint.size());
-        request.setAttribute("point", pointSum / 100);
+        double point = (double)(pointSum) / 100.00;
+        request.setAttribute("point", point);
         request.getRequestDispatcher(Constants.JSP_VIEWPOINT).forward(request, response);
 
     }
