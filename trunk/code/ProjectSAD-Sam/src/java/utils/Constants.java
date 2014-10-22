@@ -17,7 +17,10 @@ public class Constants {
     public static final String JSP_HOME = "WEB-INF/common/home.jsp";
     public static final String JSP_LOGIN = "WEB-INF/user/login.jsp";
     public static final String URL_ADMIN = "admin";
-    public static final String JSP_ADMIN = "WEB-INF/user/admin.jsp";
+    public static final String JSP_ADMIN = "WEB-INF/user/admin.jsp"; 
+    public static final String URL_SUBJECT = "SubjectServlet";
+    public static final String JSP_SUBJECT = "WEB-INF/subject/createSubject.jsp";
+    public static final String JSP_CREATESUBJECT = "WEB-INF/subject/createSubject.jsp";
     public static final String JSP_EXAMSESSION = "WEB-INF/exam/examSession.jsp";
     public static final String URL_POINT = "point";
      public static final String JSP_VIEWPOINT = "WEB-INF/exam/viewPoint.jsp";
