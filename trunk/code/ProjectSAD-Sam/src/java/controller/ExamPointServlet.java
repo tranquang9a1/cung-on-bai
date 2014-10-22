@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dao.UserDao;
 import entity.TblSession;
 import entity.TblSessionQuestion;
 import entity.TblUser;
@@ -43,23 +42,11 @@ public class ExamPointServlet extends HttpServlet {
         if (user == null) {
             response.sendRedirect(Constants.URL_USER);
         } else {
-            TblSession examSession = (TblSession) request.getAttribute("examSession");
-            List<TblSessionQuestion> lst = examSession.getTblSessionQuestionList();
-            // canculate total point
-            Map<Integer, Integer> mapPoint = canculatePoint(lst);
-            int pointSum = 0;
-            for (Entry entry : mapPoint.entrySet()) {
-                Integer value = (Integer) entry.getValue();
-                if (value > 0) {
-                    pointSum += value;
-                }
-            }
-            request.setAttribute("numberQuestion", mapPoint.size());
-            double point = (double) (pointSum) / 100.00;
-            request.setAttribute("point", point);
-            // add point into account of user
+            // canculate point of Sesion completed
+            double point = canculatePoint(request);
             long pointLong = Math.round(point);
             int pointInt = (int) pointLong;
+            // add point into account of user
             user.setScore(user.getScore() + pointInt);
             request.getRequestDispatcher(Constants.JSP_VIEWPOINT).forward(request, response);
         }
@@ -107,7 +94,10 @@ public class ExamPointServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private Map<Integer, Integer> canculatePoint(List<TblSessionQuestion> lst) {
+    private double canculatePoint(HttpServletRequest request)
+            throws ServletException, IOException {
+        TblSession examSession = (TblSession) request.getAttribute("examSession");
+        List<TblSessionQuestion> lst = examSession.getTblSessionQuestionList();
         //create map to store point of each question
         Map<Integer, Integer> mapPoint = new HashMap<Integer, Integer>();
         for (int i = 0; i < lst.size(); i++) {
@@ -127,6 +117,17 @@ public class ExamPointServlet extends HttpServlet {
                 }
             }
         }
-        return mapPoint;
+        // canculate total point
+        int pointSum = 0;
+        for (Entry entry : mapPoint.entrySet()) {
+            Integer value = (Integer) entry.getValue();
+            if (value > 0) {
+                pointSum += value;
+            }
+        }
+        request.setAttribute("numberQuestion", mapPoint.size());
+        double point = (double) (pointSum) / 100.00;
+        request.setAttribute("point", point);
+        return point;
     }
 }
