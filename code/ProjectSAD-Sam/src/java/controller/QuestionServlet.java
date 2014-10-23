@@ -45,6 +45,7 @@ public class QuestionServlet extends HttpServlet {
         }
         // Show question ( admin module)
         if (action.equals("show")) {
+            //show module
             String type = request.getParameter("type");
             if (type == null) {
                 response.sendRedirect(Constants.JSP_ERROR);
@@ -57,7 +58,7 @@ public class QuestionServlet extends HttpServlet {
                 request.getRequestDispatcher("WEB-INF/chooseSubjectView.jsp").forward(request, response);
                 return;
             }
-            if (type.equals("viewQuestion")) {
+            if (type.equals("viewPage")) {
 
                 SubjectDao subjectDao = new SubjectDao();
                 QuestionDao questionDao = new QuestionDao();
@@ -102,19 +103,20 @@ public class QuestionServlet extends HttpServlet {
             return;
         }
         if (action.equals("insertQuestion")) {
+            // insertQuestion module
             String type = request.getParameter("type");
             if (type == null) {
                 response.sendRedirect(Constants.JSP_ERROR);
                 return;
             }
-            if (type.equals("chooseSubject")) {
-                SubjectDao subjectDao = new SubjectDao();
-                List<TblSubject> tblSubjects = subjectDao.getListAllSubject();
-                request.setAttribute("subjects", tblSubjects);
-                request.getRequestDispatcher("WEB-INF/chooseSubject.jsp").forward(request, response);
-                return;
-            }
-            if (type.equals("insertPage")) {
+//            if (type.equals("chooseSubject")) {
+//                SubjectDao subjectDao = new SubjectDao();
+//                List<TblSubject> tblSubjects = subjectDao.getListAllSubject();
+//                request.setAttribute("subjects", tblSubjects);
+//                request.getRequestDispatcher("WEB-INF/chooseSubject.jsp").forward(request, response);
+//                return;
+//            }
+            if (type.equals("viewPage")) {
                 SubjectDao subjectDao = new SubjectDao();
                 String subjectId = request.getParameter("subjectId");
                 int id = 0;
