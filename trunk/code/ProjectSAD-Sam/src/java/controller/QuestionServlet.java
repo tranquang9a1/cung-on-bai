@@ -79,9 +79,9 @@ public class QuestionServlet extends HttpServlet {
                 }
 //            TblSubject tblSubject = subjectDao.findById(TblSubject.class,id );
                 List<TblQuestion> questions = questionDao.getListQuestion(id, page, common.page);
-                int count = questionDao.getCountListQuestion(id);
+                int count = questionDao.getCountListQuestion(id) / common.page;
                 request.setAttribute("questions", questions);
-                request.setAttribute("number", id);
+                request.setAttribute("number", count);
                 request.getRequestDispatcher("WEB-INF/questionAdminView.jsp").forward(request, response);
                 return;
             }

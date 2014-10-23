@@ -49,7 +49,7 @@
            $('#dataTables-example').dataTable();
             });
         </script>-->
-        <script src="adminResource/js/custom.js"></script>
+        <!--<script src="adminResource/js/custom.js"></script>-->
 
     </head>
 

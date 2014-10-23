@@ -63,6 +63,9 @@
                             Advanced Tables
                         </div>
                         <div class="panel-body">
+                            <ul class="pagination">
+                                <span class="question-pages"></span>
+                            </ul>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -84,16 +87,10 @@
                                     </tbody>
                                 </table>
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <div id="dataTables-example_paginate" class="dataTables_paginate paging_simple_numbers">
                                             <ul class="pagination">
-                                                <!--                                                <li id="dataTables-example_previous" class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0"></li>
-                                                                                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0"></li>
-                                                                                                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"></li>
-                                                                                                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"></li>
-                                                                                                <li id="dataTables-example_next" class="paginate_button next" aria-controls="dataTables-example" tabindex="0"></li>-->
-                                                <a class="btn btn-primary" href="QuestionServlet?action=show&page=${param.page-1}&subjectId=${param.subjectId}">PREVIOUS</a>
-                                                <a class="btn btn-default" href="#">1</a>
+                                                <span class="question-pages"></span>
                                             </ul>
                                         </div>
                                     </div>
@@ -109,5 +106,12 @@
             <!-- /. PAGE WRAPPER  -->
         </div>
     </div>
-
+    <script>
+        $(function() {
+            for (var i = 1; i <= ${number}; i++) {
+                $('.question-pages').append('<a class="page-link-' + i + ' btn btn-default" href="QuestionServlet?action=show&type=viewQuestion&page=' + i + '&subjectId=${param.subjectId}">' + i + '</a>')
+            }
+            $('.page-link-${param.page}').removeClass('btn-default').addClass('btn-success');
+        });
+    </script>
     <%@include file="adminInclude/footer.jsp" %>

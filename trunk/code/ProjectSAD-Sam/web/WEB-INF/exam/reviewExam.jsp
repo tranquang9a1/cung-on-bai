@@ -5,36 +5,30 @@
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Xem lại bài làm</title>
-    </head>
-    <body>
-        <c:forEach var="question" items="${lstDecorator}" varStatus="index">
-                    ${question.question.content} </br>
+
+<%@include file="../include/header.jsp" %>
+<%@include file="../include/sidebar.jsp" %>
+<form id="exam-form" action="ExamServlet" method="POST">
+    <div class="center-content">
+        <div id="scroll-div" class="wide">
+            <div class="exam-session">
+
+                <c:forEach var="question" items="${lstDecorator}" varStatus="index">
+                    <div style="margin: 10px 0"><b>Câu hỏi ${index.count}:</b> ${question.question.content} </div>
                     <c:forEach var="answer"
                                items="${question.question.tblAnswerList}" varStatus="indexAnswer">
-                        <c:choose>
-                            <c:when test="${question.type eq 'checkBox'}">
-                                <input disabled="true" type="checkbox" 
-                                       name="${question.question.questionId}"  
-                                       value="${answer.answerId}" />    
-                            </c:when>
-                            <c:otherwise>
-                                <input disabled="true" type="radio" 
-                                       name="${question.question.questionId}" 
-                                       value="${answer.answerId}" />  
-                            </c:otherwise>
-                        </c:choose>
-                        ${answer.point} - ${answer.content} </br>
+                        <b style="color: blue; display: inline-block; width: 30px;">${answer.point}</b> - ${answer.content} </br>
                     </c:forEach>
-                    Selected answer: ${question.answer.content}
                     <br/>
+                    <b>Bạn trả lời:</b> <i>${question.answer.content}</i>
                     <br/>
                     <br/>
                     <br/>
                 </c:forEach>
-    </body>
-</html>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px;">
+            <a class='button' href="review">Quay lại</a>
+        </p>
+    </div>
+    <%@include file="../include/footer.jsp" %>

@@ -53,14 +53,14 @@
             <form method="POST" action="QuestionServlet" role="form">
                 <input type="hidden" name="type" value="mergeQuestion" />
                 <input type="hidden" name="questionId" value="${requestScope.question.questionId}" />
-                Content : <textarea class="form-control custom-control" rows="4" style="resize:none;width: 1000px;" name="questionContent">${requestScope.question.content}</textarea>
+                Content : <textarea class="form-control custom-control" rows="4" style="resize:none;width: 700px;" name="questionContent">${requestScope.question.content}</textarea>
                 <div id="answers" >
                     <c:forEach var="answer" items="${requestScope.question.tblAnswerList}" varStatus="index">
                         <input type="hidden" name="answerId" value="${answer.answerId}" />
                         <div class="answer-item" id="delete-${index.count}">
                             <label>Answer : </label>
                             <div class="form-group input-group">
-                                <input type="text" name="answerContent" value="${answer.content}" class="form-control" style="width: 700px;height: 34px"/>
+                                <input type="text" name="answerContent" value="${answer.content}" class="form-control" style="width: 500px;height: 34px"/>
                                 <c:if test="${answer.point > 0}">
                                     <span class="input-group-lg">
                                         <select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select>
@@ -72,32 +72,32 @@
                                     </span>
                                 </c:if>
                                 <span class="input-group-lg">
-                                    <input onclick="deleteAnswer(${index.count})" type="button" value="delete answer" class="btn btn-default"/>
+                                    <input onclick="deleteAnswer(${index.count})" type="button" value="delete answer" class="btn btn-danger"/>
                                 </span>
                             </div>
                         </div>
                     </c:forEach>
                 </div>  
-                <input onclick="addAnswer($('.answer-item').length+1)" type="button" value="insert answer" class="btn btn-default"/>
+                <input onclick="addAnswer($('.answer-item').length + 1)" type="button" value="insert answer" class="btn btn-success"/>
                 <input type="submit" value="updateQuestion" name="action" class="btn btn-primary"/>
             </form>
             <script>
-                                 
-                                    function addAnswer(index) {
-                                        var newAnswer = '<div class="answer-item" id="delete-'+index+'">'+'<label>Answer : </label> <div class="form-group input-group"> <input type="text" name="answerContent" value="" class="form-control" style="width: 700px;height: 34px"/><span class="input-group-lg"><select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select></span><span class="input-group-lg">'+
-                                    '<input onclick="deleteAnswer('+index+')" type="button" value="delete answer" class="btn btn-default"/></span></div></div>';
-                                        var node = document.createElement('div');
-                                        node.innerHTML = newAnswer;
-                                        document.getElementById("answers").appendChild(node);
-                                      
-                                    }
+
+            function addAnswer(index) {
+                var newAnswer = '<div class="answer-item" id="delete-' + index + '">' + '<label>Answer : </label> <div class="form-group input-group"> <input type="text" name="answerContent" value="" class="form-control" style="width: 500px;height: 34px"/><span class="input-group-lg"><select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select></span><span class="input-group-lg">' +
+                        '<input onclick="deleteAnswer(' + index + ')" type="button" value="delete answer" class="btn btn-danger"/></span></div></div>';
+                var node = document.createElement('div');
+                node.innerHTML = newAnswer;
+                document.getElementById("answers").appendChild(node);
+
+            }
 
             </script>
             <script>
-                                    
-                                    function deleteAnswer(id) {
-                                        $('#delete-'+id).remove();
-                                    }
+
+                function deleteAnswer(id) {
+                    $('#delete-' + id).remove();
+                }
 
             </script>
         </div>

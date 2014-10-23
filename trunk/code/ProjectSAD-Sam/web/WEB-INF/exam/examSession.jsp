@@ -14,7 +14,7 @@
         <div id="scroll-div" class="wide">
             <div class="exam-session">
                 <c:forEach var="question" items="${lstDecorator}" varStatus="index">
-                    ${question.question.content} </br>
+                    <div style="margin: 10px 0"><b>Câu hỏi ${index.count}:</b> ${question.question.content} </div>
                     <c:forEach var="answer"
                                items="${question.question.tblAnswerList}" varStatus="indexAnswer">
                         <c:choose>
