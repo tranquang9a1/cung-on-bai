@@ -7,17 +7,107 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Question</h1>
-        <c:forEach var="question" items="${requestScope.questions}">
-            ${index.count},${question.content}--> <a href="QuestionServlet?action=showDetail&id=${question.questionId}">show detail</a>
-            --<a href="QuestionServlet?action=deleteQuestion&id=${question.questionId}&subjectId=${param.subjectId}">Delete Question</a> </br>
-        </c:forEach>
-        <a href="insertQuestion.jsp">insert Question</a>    
-    </body>
-</html>
+<%@include file="adminInclude/header.jsp" %>
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">ADMIN</a> 
+        </div>
+        <div style="color: white;
+             padding: 15px 50px 5px 50px;
+             float: right;
+             font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+    </nav>   
+    <!-- /. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li class="text-center">
+                    <img src="adminResource/img/find_user.png" class="user-image img-responsive"/>
+                </li>
+                <li  >
+                    <a class="active-menu"  href="blank.html"><i class="fa fa-square-o fa-3x"></i>Question Management</a>
+                </li>	
+            </ul>
+
+        </div>
+
+    </nav>  
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper" >
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Question Management</h2>   
+                    <h5>Welcome Jhon Deo , Love to see you back. </h5>
+
+                </div>
+            </div>
+            <!-- /. ROW  -->
+            <hr />
+            <%--<c:forEach var="question" items="${requestScope.questions}" varStatus="index">
+                ${index.count}-${question.content}--> <a href="QuestionServlet?action=showDetail&id=${question.questionId}">show detail</a>
+                --<a href="QuestionServlet?action=deleteQuestion&id=${question.questionId}&subjectId=${param.subjectId}">Delete Question</a> </br>
+            </c:forEach>
+            <a href="insertQuestion.jsp">insert Question</a>  --%>  
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Advanced Tables
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Content</th>
+                                            <th>Detail</th>
+                                            <th>Delete</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="question" items="${requestScope.questions}">
+                                            <tr class="odd gradeX">
+                                                <td>${question.content}</td>
+                                                <td><a class="btn btn-info"  href="QuestionServlet?action=showDetail&id=${question.questionId}">show detail</a></td>
+                                                <td><a class="btn btn-danger" href="QuestionServlet?action=deleteQuestion&id=${question.questionId}&subjectId=${param.subjectId}">Delete Question</a></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div id="dataTables-example_paginate" class="dataTables_paginate paging_simple_numbers">
+                                            <ul class="pagination">
+                                                <!--                                                <li id="dataTables-example_previous" class="paginate_button previous disabled" aria-controls="dataTables-example" tabindex="0"></li>
+                                                                                                <li class="paginate_button active" aria-controls="dataTables-example" tabindex="0"></li>
+                                                                                                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"></li>
+                                                                                                <li class="paginate_button " aria-controls="dataTables-example" tabindex="0"></li>
+                                                                                                <li id="dataTables-example_next" class="paginate_button next" aria-controls="dataTables-example" tabindex="0"></li>-->
+                                                <a class="btn btn-primary" href="QuestionServlet?action=show&page=${param.page-1}&subjectId=${param.subjectId}">PREVIOUS</a>
+                                                <a class="btn btn-default" href="#">1</a>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Advanced Tables -->
+                    </div>
+                </div>  
+                <!-- /. PAGE INNER  -->
+            </div>
+            <!-- /. PAGE WRAPPER  -->
+        </div>
+    </div>
+
+    <%@include file="adminInclude/footer.jsp" %>

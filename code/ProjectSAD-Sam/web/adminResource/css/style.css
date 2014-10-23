@@ -1,0 +1,13 @@
+/* 
+    Document   : style
+    Created on : Oct 22, 2014, 8:58:42 AM
+    Author     : khangtnse60992
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.box-center {
+    width: 500px;
+    margin: 10% auto;
+    text-align: center;
+}

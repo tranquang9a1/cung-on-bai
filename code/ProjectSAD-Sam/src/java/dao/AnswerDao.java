@@ -40,22 +40,40 @@ public class AnswerDao extends BaseDao<TblAnswer> {
         return (TblAnswer) query.getSingleResult();
     }
 
-    public List<TblAnswer> getListAnswer(int[] point, String[] content, TblQuestion tblQuestion) {
+    public List<TblAnswer> getListAnswer(String[] pointTxt, String[] content, TblQuestion tblQuestion) {
         List<TblAnswer> tblAnswers = new ArrayList<TblAnswer>();
         TblAnswer answer = null;
+        Double count = 0.0;
+        for (int i = 0; i < pointTxt.length; i++) {
+            if (pointTxt[i].equals("true")) {
+                count++;
+            }
+        }
+        Double point = 100 / count;
         for (int i = 0; i < content.length; i++) {
             answer = new TblAnswer();
             answer.setContent(content[i]);
-            answer.setPoint(point[i]);
+            if (pointTxt[i].equals("true")) {
+                answer.setPoint(point.intValue());
+            } else {
+                answer.setPoint(0);
+            }
             answer.setQuestionId(tblQuestion);
             tblAnswers.add(answer);
         }
         return tblAnswers;
     }
 
-    public List<TblAnswer> getListAnswer(int[] id, int[] point, String[] content, TblQuestion tblQuestion) {
+    public List<TblAnswer> getListAnswer(int[] id, String[] pointTxt, String[] content, TblQuestion tblQuestion) {
         TblAnswer answer = null;
         List<TblAnswer> tblAnswers = new ArrayList<TblAnswer>();
+        Double count = 0.0;
+        for (int i = 0; i < pointTxt.length; i++) {
+            if (pointTxt[i].equals("true")) {
+                count++;
+            }
+        }
+        Double point = 100 / count;
         for (int i = 0; i < content.length; i++) {
             try {
                 answer = findById(TblAnswer.class, id[i]);
@@ -65,7 +83,11 @@ public class AnswerDao extends BaseDao<TblAnswer> {
                 answer = new TblAnswer();
             }
             answer.setContent(content[i]);
-            answer.setPoint(point[i]);
+            if (pointTxt[i].equals("true")) {
+                answer.setPoint(point.intValue());
+            } else {
+                answer.setPoint(0);
+            }
             answer.setQuestionId(tblQuestion);
             tblAnswers.add(answer);
         }

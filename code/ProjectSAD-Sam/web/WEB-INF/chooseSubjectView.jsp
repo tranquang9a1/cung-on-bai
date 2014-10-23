@@ -50,47 +50,22 @@
             </div>
             <!-- /. ROW  -->
             <hr />
-            QUESTION : ${requestScope.question.content}</br></br>
-            <div class="col-md-6">
-                <!--    Context Classes  -->
-                <div class="panel panel-default">
-
-                    <div class="panel-heading">
-                        Answer Table
-                    </div>
-
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Content</th>
-                                        <th>Point</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="answer" items="${requestScope.question.tblAnswerList}">
-                                        <tr class="success">
-                                            <td>${answer.content}</td>
-                                            <c:if test="${answer.point > 0}">
-                                                <td>True</td>
-                                            </c:if>
-                                            <c:if test="${answer.point == 0}">
-                                                <td>False</td>
-                                            </c:if>
-                                        </tr>
-                                    </c:forEach>
-
-                                </tbody>
-                            </table>
-                            <a href="QuestionServlet?action=updateQuestion&type=viewUpdatePage&questionId=${requestScope.question.questionId}" class="btn btn-info">Update Question</a>
-                        </div>
-                    </div>
-                </div>
-                <!--  end  Context Classes  -->
-            </div>
-
-
+            <form action="QuestionServlet" method="GET">
+                <input type="hidden" name="type" value="viewQuestion" />
+                <input type="hidden" name="page" value="1" />
+                <select name="subjectId" class="form-control" style="width: 200px;">
+                    <c:forEach var="subject" items="${requestScope.subjects}">
+                        <option value="${subject.subjectId}" >${subject.subjectName}</option>
+                    </c:forEach>
+                </select>
+                <script>
+                    $("select").selectBoxIt({
+                        // Sets default text to appear for the drop down
+                        nativeMousedown: true
+                    });
+                </script>
+                <br><br><input type="submit" value="show" name="action" class="btn btn-primary"/>
+            </form>
         </div>
     </div>
 </div>  

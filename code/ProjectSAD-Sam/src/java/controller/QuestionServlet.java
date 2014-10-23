@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.Constants;
 import utils.common;
 
 /**
@@ -39,34 +40,51 @@ public class QuestionServlet extends HttpServlet {
         String action = request.getParameter("action");
         // action = null redirect to 404
         if (action == null) {
-            response.sendRedirect("404.html");
+            response.sendRedirect(Constants.JSP_ERROR);
             return;
         }
         // Show question ( admin module)
         if (action.equals("show")) {
-            SubjectDao subjectDao = new SubjectDao();
-            QuestionDao questionDao = new QuestionDao();
-            String subjectId = request.getParameter("subjectId");
-            String pageTxt = request.getParameter("page");
-            int id = 0;
-            try {
-                id = Integer.parseInt(subjectId);
-            } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+            String type = request.getParameter("type");
+            if (type == null) {
+                response.sendRedirect(Constants.JSP_ERROR);
                 return;
             }
-            int page = 0;
-            try {
-                page = Integer.parseInt(pageTxt);
-            } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+            if (type.equals("chooseSubject")) {
+                SubjectDao subjectDao = new SubjectDao();
+                List<TblSubject> tblSubjects = subjectDao.getListAllSubject();
+                request.setAttribute("subjects", tblSubjects);
+                request.getRequestDispatcher("WEB-INF/chooseSubjectView.jsp").forward(request, response);
                 return;
             }
+            if (type.equals("viewQuestion")) {
+
+                SubjectDao subjectDao = new SubjectDao();
+                QuestionDao questionDao = new QuestionDao();
+                String subjectId = request.getParameter("subjectId");
+                String pageTxt = request.getParameter("page");
+                int id = 0;
+                try {
+                    id = Integer.parseInt(subjectId);
+                } catch (NumberFormatException e) {
+                    response.sendRedirect(common.errorPage);
+                    return;
+                }
+                int page = 0;
+                try {
+                    page = Integer.parseInt(pageTxt);
+                } catch (NumberFormatException e) {
+                    response.sendRedirect(common.errorPage);
+                    return;
+                }
 //            TblSubject tblSubject = subjectDao.findById(TblSubject.class,id );
-            List<TblQuestion> questions = questionDao.getListQuestion(id, page*common.page, common.page);
-            request.setAttribute("questions", questions);
-            request.getRequestDispatcher("WEB-INF/questionAdminView.jsp").forward(request, response);
-            return;
+                List<TblQuestion> questions = questionDao.getListQuestion(id, page, common.page);
+                int count = questionDao.getCountListQuestion(id);
+                request.setAttribute("questions", questions);
+                request.setAttribute("number", id);
+                request.getRequestDispatcher("WEB-INF/questionAdminView.jsp").forward(request, response);
+                return;
+            }
         }
         if (action.equals("showDetail")) {
             String questionId = request.getParameter("id");
@@ -85,6 +103,10 @@ public class QuestionServlet extends HttpServlet {
         }
         if (action.equals("insertQuestion")) {
             String type = request.getParameter("type");
+            if (type == null) {
+                response.sendRedirect(Constants.JSP_ERROR);
+                return;
+            }
             if (type.equals("chooseSubject")) {
                 SubjectDao subjectDao = new SubjectDao();
                 List<TblSubject> tblSubjects = subjectDao.getListAllSubject();
@@ -104,14 +126,14 @@ public class QuestionServlet extends HttpServlet {
                 TblSubject subject = subjectDao.findById(TblSubject.class, id);
                 request.setAttribute("subject", subject);
                 request.getRequestDispatcher("WEB-INF/insertQuestion.jsp").forward(request, response);
+//                response.sendRedirect("WEB-INF/insertQuestion.jsp?subjectId="+subjectId+"&subjectName="+subject.getSubjectName());
                 return;
             }
             if (type.equals("persit")) {
-                String questionContent = request.getParameter("questionContent");
+                StringBuffer questionContent = new StringBuffer(request.getParameter("questionContent"));
                 String subjectIdTxt = request.getParameter("subjectId");
                 String[] answerContent = request.getParameterValues("answerContent");
                 String[] pointTxt = request.getParameterValues("point");
-                int[] point = null;
                 QuestionDao questionDao = new QuestionDao();
                 SubjectDao subjectDao = new SubjectDao();
                 AnswerDao answerDao = new AnswerDao();
@@ -125,24 +147,30 @@ public class QuestionServlet extends HttpServlet {
                     response.sendRedirect(common.errorPage);
                     return;
                 }
+                
+                int loc = (new String(questionContent)).indexOf('\n');
+                while (loc > 0) {
+                    questionContent.replace(loc, loc + 1, "<BR>");
+                    loc = (new String(questionContent)).indexOf('\n');
+                }
                 // get Subject
                 TblSubject tblSubject = subjectDao.findById(TblSubject.class, subjectId);
                 TblQuestion tblQuestion = new TblQuestion();
                 tblQuestion.setSubjectId(tblSubject);
-                tblQuestion.setContent(questionContent);
-                point = new int[pointTxt.length];
-                for (int i = 0; i < pointTxt.length; i++) {
-                    try {
-                        point[i] = Integer.parseInt(pointTxt[i]);
-                    } catch (NumberFormatException e) {
-                        response.sendRedirect(common.errorPage);
-                        return;
-                    } catch (NullPointerException e) {
-                        response.sendRedirect(common.errorPage);
-                        return;
-                    }
-                }
-                List<TblAnswer> tblAnswers = answerDao.getListAnswer(point, answerContent, tblQuestion);
+                tblQuestion.setContent(questionContent.toString());
+//                point = new int[pointTxt.length];
+//                for (int i = 0; i < pointTxt.length; i++) {
+//                    try {
+//                        point[i] = Integer.parseInt(pointTxt[i]);
+//                    } catch (NumberFormatException e) {
+//                        response.sendRedirect(common.errorPage);
+//                        return;
+//                    } catch (NullPointerException e) {
+//                        response.sendRedirect(common.errorPage);
+//                        return;
+//                    }
+//                }
+                List<TblAnswer> tblAnswers = answerDao.getListAnswer(pointTxt, answerContent, tblQuestion);
                 tblQuestion.setTblAnswerList(tblAnswers);
                 // insert Question and return question
                 tblQuestion = questionDao.insert(tblQuestion);
@@ -178,12 +206,12 @@ public class QuestionServlet extends HttpServlet {
             }
             if (type.equals("mergeQuestion")) {
                 String questionId = request.getParameter("questionId");
-                String questionContent = request.getParameter("questionContent");
+                StringBuffer questionContent = new StringBuffer(request.getParameter("questionContent"));
                 String[] answerContent = request.getParameterValues("answerContent");
                 String[] pointTxt = request.getParameterValues("point");
                 String[] answerIdTxt = request.getParameterValues("answerId");
                 int id = 0;
-                int[] point;
+//                int[] point;
                 int[] answerId;
                 try {
                     id = Integer.parseInt(questionId);
@@ -194,18 +222,18 @@ public class QuestionServlet extends HttpServlet {
                     response.sendRedirect(common.errorPage);
                     return;
                 }
-                point = new int[pointTxt.length];
-                for (int i = 0; i < pointTxt.length; i++) {
-                    try {
-                        point[i] = Integer.parseInt(pointTxt[i]);
-                    } catch (NumberFormatException e) {
-                        response.sendRedirect(common.errorPage);
-                        return;
-                    } catch (NullPointerException e) {
-                        response.sendRedirect(common.errorPage);
-                        return;
-                    }
-                }
+//                point = new int[pointTxt.length];
+//                for (int i = 0; i < pointTxt.length; i++) {
+//                    try {
+//                        point[i] = Integer.parseInt(pointTxt[i]);
+//                    } catch (NumberFormatException e) {
+//                        response.sendRedirect(common.errorPage);
+//                        return;
+//                    } catch (NullPointerException e) {
+//                        response.sendRedirect(common.errorPage);
+//                        return;
+//                    }
+//                }
                 answerId = new int[answerIdTxt.length];
                 for (int i = 0; i < answerIdTxt.length; i++) {
                     try {
@@ -218,11 +246,16 @@ public class QuestionServlet extends HttpServlet {
                         return;
                     }
                 }
+                int loc = (new String(questionContent)).indexOf('\n');
+                while (loc > 0) {
+                    questionContent.replace(loc, loc + 1, "<BR>");
+                    loc = (new String(questionContent)).indexOf('\n');
+                }
                 QuestionDao questionDao = new QuestionDao();
                 AnswerDao answerDao = new AnswerDao();
                 TblQuestion tblQuestion = questionDao.findById(TblQuestion.class, id);
-                tblQuestion.setContent(questionContent);
-                List<TblAnswer> tblAnswers = answerDao.getListAnswer(answerId, point, answerContent, tblQuestion);
+                tblQuestion.setContent(questionContent.toString());
+                List<TblAnswer> tblAnswers = answerDao.getListAnswer(answerId, pointTxt, answerContent, tblQuestion);
                 tblQuestion.setTblAnswerList(tblAnswers);
                 tblQuestion = questionDao.update(tblQuestion);
                 //answerDao.updateAnswer(answerId, point, answerContent, tblQuestion);
@@ -243,10 +276,10 @@ public class QuestionServlet extends HttpServlet {
                 response.sendRedirect(common.errorPage);
                 return;
             }
-            
+
             QuestionDao questionDao = new QuestionDao();
             questionDao.remove(questionDao.findById(TblQuestion.class, id));
-            response.sendRedirect("QuestionServlet?action=show&page=0&subjectId="+subjectId);
+            response.sendRedirect("QuestionServlet?action=show&page=0&subjectId=" + subjectId);
             return;
         }
     }
