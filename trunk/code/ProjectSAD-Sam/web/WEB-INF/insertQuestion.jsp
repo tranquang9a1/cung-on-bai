@@ -1,51 +1,150 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
-    Document   : insertQuestion
-    Created on : Oct 19, 2014, 2:19:20 PM
+    Document   : questionAdminView
+    Created on : Oct 19, 2014, 11:34:10 AM
     Author     : khangtnse60992
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%@include file="adminInclude/header.jsp" %>
-<div class="box-center">
-    <h1>Insert Question</h1>
-    Insert Question to Subject : ${param.subjectName}
-    <form method="POST" action="QuestionServlet">
-        <input type="hidden" name="subjectId" value="${param.subjectId}" />
-        <input type="hidden" name="type" value="persit" />
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">ADMIN</a> 
+        </div>
+        <div style="color: white;
+             padding: 15px 50px 5px 50px;
+             float: right;
+             font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+    </nav>   
+    <!-- /. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li class="text-center">
+                    <img src="adminResource/img/find_user.png" class="user-image img-responsive"/>
+                </li>
+                <li  >
+                    <a class="active-menu"  href="QuestionServlet?action=show&type=chooseSubject"><i class="fa fa-square-o fa-3x"></i>Question Management</a>
+                </li>
+                <li  >
+                    <a href="SubjectServlet"><i class="fa fa-square-o fa-3x"></i>Subject Management</a>
+                </li>
+            </ul>
 
-        <div class="input-group">
-            Content : <textarea class="form-control custom-control" rows="4" style="resize:none" name="questionContent"></textarea>     
-        </div></br> 
-        <div id="answers">
-            Answer : <input type="text" name="answerContent" value="" /><select name="point" class="form-control"><option value="false">False</option><option value="true">True</option></select></br>
-            Answer : <input type="text" name="answerContent" value="" /><select name="point" class="form-control"><option value="false">False</option><option value="true">True</option></select></br>
-            Answer : <input type="text" name="answerContent" value="" /><select name="point" class="form-control"><option value="false">False</option><option value="true">True</option></select></br>
-            Answer : <input type="text" name="answerContent" value="" /><select name="point" class="form-control"><option value="false">False</option><option value="true">True</option></select></br>
+        </div>
+
+    </nav>  
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper" >
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Question Management</h2>   
+                    <h5>Welcome Jhon Deo , Love to see you back. </h5>
+
+                </div>
+            </div>
+            <!-- /. ROW  -->
+            <hr />
+
+            <form method="POST" action="QuestionServlet">
+                <input type="hidden" name="subjectId" value="${param.subjectId}" />
+                <input type="hidden" name="type" value="persit" />
+
+
+                Content : <textarea class="form-control custom-control" rows="4" style="resize:none;width: 700px;" name="questionContent"></textarea>
+
+                <div id="answers">
+                    <div class="answer-item" id="delete-1">
+                        <label>Answer : </label>
+                        <div class="form-group input-group">
+                            <input type="text" name="answerContent" value="" class="form-control" style="width: 500px;height: 34px"/>
+                            <span class="input-group-lg">
+                                <select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select>
+                            </span>
+                            <span class="input-group-lg">
+                                <input onclick="deleteAnswer(1)" type="button" value="delete answer" class="btn btn-danger"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="answer-item" id="delete-2">
+                        <label>Answer : </label>
+                        <div class="form-group input-group">
+                            <input type="text" name="answerContent" value="" class="form-control" style="width: 500px;height: 34px"/>
+                            <span class="input-group-lg">
+                                <select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select>
+                            </span>
+                            <span class="input-group-lg">
+                                <input onclick="deleteAnswer(2)" type="button" value="delete answer" class="btn btn-danger"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="answer-item" id="delete-3">
+                        <label>Answer : </label>
+                        <div class="form-group input-group">
+                            <input type="text" name="answerContent" value="" class="form-control" style="width: 500px;height: 34px"/>
+                            <span class="input-group-lg">
+                                <select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select>
+                            </span>
+                            <span class="input-group-lg">
+                                <input onclick="deleteAnswer(3)" type="button" value="delete answer" class="btn btn-danger"/>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="answer-item" id="delete-4">
+                        <label>Answer : </label>
+                        <div class="form-group input-group">
+                            <input type="text" name="answerContent" value="" class="form-control" style="width: 500px;height: 34px"/>
+                            <span class="input-group-lg">
+                                <select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select>
+                            </span>
+                            <span class="input-group-lg">
+                                <input onclick="deleteAnswer(4)" type="button" value="delete answer" class="btn btn-danger"/>
+                            </span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <input onclick="addAnswer($('.answer-item').length + 1)" type="button" value="insert answer" class="btn btn-success"/>
+                <input type="submit" value="insertQuestion" name="action" class="btn btn-primary"/>
+            </form>
         </div>
         <script>
-            $("select").selectBoxIt({
-                // Sets default text to appear for the drop down
-                nativeMousedown: true
+                                    function addAnswer() {
+                                        var i = 5
+                                        var newAnswer = '<div class="answer-item" id="delete-' + i + '">' + '<label>Answer : </label> <div class="form-group input-group"> <input type="text" name="answerContent" value="" class="form-control" style="width: 500px;height: 34px"/><span class="input-group-lg"><select name="point"  style="width: 100px;height: 34px"><option value="false">False</option><option value="true" selected="true">True</option></select></span><span class="input-group-lg">' +
+                                                '<input onclick="deleteAnswer(' + i + ')" type="button" value="delete answer" class="btn btn-danger"/></span></div></div>';
+                                        var node = document.createElement('div');
+                                        node.innerHTML = newAnswer;
+                                        document.getElementById("answers").appendChild(node);
+                                        i++;
+                                    }
 
-            });
         </script>
-        <input onclick="addAnswer()" type="button" value="add answer" class="btn btn-small"/>
-        <input type="submit" value="insertQuestion" name="action" class="btn btn-primary"/>
-    </form>
-</div>
-<script>
-            function addAnswer() {
-                var newAnswer = 'Answer : <input type="text" name="answerContent" value="" /><select name="point" class="form-control"><option value="false">False</option><option value="true">True</option></select></br>';
-                var node = document.createElement('div');
-                node.innerHTML = newAnswer;
-                document.getElementById("answers").appendChild(node);
-                $("select").selectBoxIt({
-                    // Sets default text to appear for the drop down
-                    nativeMousedown: true
+        <script>
 
-                });
+            function deleteAnswer(id) {
+                $('#delete-' + id).remove();
             }
 
-</script>
+        </script>
+    </div>
+</div>
+</div>  
+<!-- /. PAGE INNER  -->
+<!--</div>
+ /. PAGE WRAPPER  
+</div>
+</div>-->
+
+<%@include file="adminInclude/footer.jsp" %>
+
 <%@include file="adminInclude/footer.jsp" %>

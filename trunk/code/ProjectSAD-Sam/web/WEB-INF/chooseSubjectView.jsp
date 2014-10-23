@@ -33,6 +33,9 @@
                 <li  >
                     <a class="active-menu"  href="QuestionServlet?action=show&type=chooseSubject"><i class="fa fa-square-o fa-3x"></i>Question Management</a>
                 </li>	
+                <li  >
+                    <a href="SubjectServlet"><i class="fa fa-square-o fa-3x"></i>Subject Management</a>
+                </li>
             </ul>
 
         </div>
@@ -51,7 +54,8 @@
             <!-- /. ROW  -->
             <hr />
             <form action="QuestionServlet" method="GET">
-                <input type="hidden" name="type" value="viewQuestion" />
+                <!--<input type="hidden" name="type" value="viewQuestion" />-->
+                <input type="hidden" name="type" value="viewPage" />
                 <input type="hidden" name="page" value="1" />
                 <select name="subjectId" class="form-control" style="width: 200px;">
                     <c:forEach var="subject" items="${requestScope.subjects}">
@@ -65,6 +69,7 @@
                     });
                 </script>
                 <br><br><input type="submit" value="show" name="action" class="btn btn-primary"/>
+                <br><br><input type="submit" value="insertQuestion" name="action" class="btn btn-primary"/>
             </form>
         </div>
     </div>

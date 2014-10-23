@@ -34,6 +34,9 @@
                 <li  >
                     <a class="active-menu"  href="blank.html"><i class="fa fa-square-o fa-3x"></i>Question Management</a>
                 </li>	
+                <li  >
+                    <a href="SubjectServlet"><i class="fa fa-square-o fa-3x"></i>Subject Management</a>
+                </li>
             </ul>
 
         </div>
