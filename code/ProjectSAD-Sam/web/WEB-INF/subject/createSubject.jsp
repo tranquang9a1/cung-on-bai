@@ -6,8 +6,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@include file="../include/header.jsp" %>
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -31,7 +29,8 @@
                     <td>${subject.subjectId}</td>
                     <td>${subject.subjectName}</td>
                     <td>
-                        <a href="?action=delete&id=${subject.subjectId}">Xoá</a>
+                        <a href="javascript:deleteSubject(${subject.subjectId})">Xoá</a>
+                        |
                         <a href="?action=edit&id=${subject.subjectId}">Sửa</a>
                     </td>
                 </tr>
@@ -42,7 +41,12 @@
             <input type="hidden" name="action" value="create"/>
             <input type="submit" value="Thêm môn học mới"/>
         </form>
+        <script>
+            function deleteSubject(id) {
+                if (confirm('Bạn chắc chắn?')) {
+                    location.href = "?action=delete&id=" + id;
+                }
+            }
+        </script>
     </body>
 </html>
-
-<%@include file="../include/footer.jsp" %>
