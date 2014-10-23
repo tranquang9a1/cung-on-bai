@@ -49,6 +49,7 @@ public class ReviewServlet extends HttpServlet {
         // Check if user is already logged in, redirect to home page
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         if (user != null) {
+            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
             String action = request.getParameter("action");
             if (action != null) {
                 if (action.equals("viewDetail")) {

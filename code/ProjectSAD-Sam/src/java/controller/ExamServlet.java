@@ -117,6 +117,7 @@ public class ExamServlet extends HttpServlet {
     private void start(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
+        request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
         String stringSubject = request.getParameter("subject");
         String stringQuestion = request.getParameter("numberQuestion");
         if (stringSubject == null || stringSubject.isEmpty()
@@ -157,6 +158,7 @@ public class ExamServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
+        request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
         String stringStartTime = request.getParameter("startTime");
         List<DecoratorQuestion> lstQuestion =
                 (List<DecoratorQuestion>) session.getAttribute("lstDecorator");

@@ -140,7 +140,11 @@ a:hover {
     border-radius: 10px;
     font-size: 25px;
 }
-
+.button.small {
+    font-size: 15px;
+    padding: 5px;
+    border-radius: 3px;
+}
 .center {
     text-align: center;
 }
