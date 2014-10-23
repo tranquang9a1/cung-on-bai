@@ -9,12 +9,20 @@ package entity;
  * @author computer
  */
 public class DecoratorQuestion {
+
     private String type;
     private TblQuestion question;
+    private TblAnswer answer;
 
     public DecoratorQuestion(String type, TblQuestion question) {
         this.type = type;
         this.question = question;
+    }
+
+    public DecoratorQuestion(String type, TblQuestion question, TblAnswer answer) {
+        this.type = type;
+        this.question = question;
+        this.answer = answer;
     }
 
     public String getType() {
@@ -32,5 +40,12 @@ public class DecoratorQuestion {
     public void setQuestion(TblQuestion question) {
         this.question = question;
     }
-    
+
+    public TblAnswer getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(TblAnswer answer) {
+        this.answer = answer;
+    }
 }
