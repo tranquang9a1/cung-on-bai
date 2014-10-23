@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TblQuestion.findAll", query = "SELECT t FROM TblQuestion t"),
      @NamedQuery(name = "TblQuestion.findRandom", query = "SELECT t FROM TblQuestion t WHERE t.subjectId.subjectId = :subjectId ORDER BY RAND()"),
     @NamedQuery(name = "TblQuestion.findBySubjectId", query = "SELECT t FROM TblQuestion t WHERE t.subjectId.subjectId = :subjectId"),
+    @NamedQuery(name = "TblQuestion.CountfindBySubjectId", query = "SELECT COUNT(t) FROM TblQuestion t WHERE t.subjectId.subjectId = :subjectId"),
     @NamedQuery(name = "TblQuestion.findByQuestionId", query = "SELECT t FROM TblQuestion t WHERE t.questionId = :questionId")})
 public class TblQuestion implements Serializable {
     private static final long serialVersionUID = 1L;

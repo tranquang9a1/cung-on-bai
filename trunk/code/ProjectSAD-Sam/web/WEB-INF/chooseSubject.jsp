@@ -6,22 +6,24 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-        <form action="QuestionServlet" method="POST">
-            <input type="hidden" name="type" value="insertPage" />
-            <select name="subjectId">
-                <c:forEach var="subject" items="${requestScope.subjects}">
-                    <option value="${subject.subjectId}">${subject.subjectName}</option>
-                </c:forEach>
-            </select>
-            <input type="submit" value="insertQuestion" name="action" />
-        </form>
-    </body>
-</html>
+<%@include file="adminInclude/header.jsp" %>
+<div class="box-center">
+    <h1>Manage Question</h1>
+    <form action="QuestionServlet" method="GET">
+        <input type="hidden" name="type" value="insertPage" />
+        <select name="subjectId" class="form-control" style="width: 200px;">
+            <c:forEach var="subject" items="${requestScope.subjects}">
+                <option value="${subject.subjectId}" >${subject.subjectName}</option>
+            </c:forEach>
+        </select>
+        <script>
+            $("select").selectBoxIt({
+                // Sets default text to appear for the drop down
+                theme: "bootstrap"
+
+            });
+        </script>
+        <br><br><input type="submit" value="insertQuestion" name="action" class="btn btn-primary"/>
+    </form>
+</div>
+<%@include file="adminInclude/footer.jsp" %>

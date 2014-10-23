@@ -4,10 +4,12 @@
  */
 package dao;
 
+import static dao.BaseDao.em;
 import entity.TblQuestion;
 import entity.TblSubject;
 import java.util.List;
 import javax.persistence.Query;
+import utils.common;
 
 /**
  *
@@ -19,11 +21,21 @@ public class QuestionDao extends BaseDao<TblQuestion> {
         Query query = null;
         query = em.createNamedQuery("TblQuestion.findBySubjectId");
         query.setParameter("subjectId", subject);
-        query.setFirstResult(from);
+        if(from < 1) {
+            from = 1;
+        }
+        query.setFirstResult((from-1)*common.page);
         query.setMaxResults(to);
         return query.getResultList();
     }
 
+    public Integer getCountListQuestion(int subject) {
+        Query query = null;
+        query = em.createNamedQuery("TblQuestion.CountfindBySubjectId");
+        query.setParameter("subjectId", subject);
+        return ((Long) query.getSingleResult()).intValue();
+    }
+    
     public List<TblQuestion> getListRandom(int number, int subjectID) {
         Query query = em.createNamedQuery("TblQuestion.findRandom");
         query.setParameter("subjectId", subjectID);

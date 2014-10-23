@@ -13,6 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class common {
     public static final int page = 16;
-    public static final String errorPage = "404.html";
+    public static final String errorPage = "WEB-INF/common/error.jsp";
     
 }
