@@ -6,6 +6,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@include file="../include/header.jsp" %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,6 +32,7 @@
                     <td>${subject.subjectName}</td>
                     <td>
                         <a href="?action=delete&id=${subject.subjectId}">Xoá</a>
+                        <a href="?action=edit&id=${subject.subjectId}">Sửa</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -41,3 +44,5 @@
         </form>
     </body>
 </html>
+
+<%@include file="../include/footer.jsp" %>

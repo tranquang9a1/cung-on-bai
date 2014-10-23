@@ -10,17 +10,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Subjects Page</title>
+        <title>Favorite Question Page</title>
     </head>
     <body>
-        <h1>List Subject</h1>
+        <h1>List Favorite Question</h1>
         <table border="1">
             <thead>
             <td>
-                SubjectId
-            </td>
-            <td>
-                SubjectName
+                questionId
             </td>
             </thead>
             <tbody>
