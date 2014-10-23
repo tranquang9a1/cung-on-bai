@@ -48,4 +48,5 @@ public class QuestionDao extends BaseDao<TblQuestion> {
         query.setParameter("subjectId", subjectId);
         return query.getResultList();
     }
+    
 }

@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "tbl_session")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "TblSession.findAllByUserId", query = "SELECT t FROM TblSession t WHERE t.userId.userId = :userId"),
     @NamedQuery(name = "TblSession.findAll", query = "SELECT t FROM TblSession t"),
     @NamedQuery(name = "TblSession.findBySessionId", query = "SELECT t FROM TblSession t WHERE t.sessionId = :sessionId"),
     @NamedQuery(name = "TblSession.findByEndedDate", query = "SELECT t FROM TblSession t WHERE t.endedDate = :endedDate"),
@@ -47,7 +49,7 @@ public class TblSession implements Serializable {
     @Basic(optional = false)
     @Column(name = "started_date")
     private int startedDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sessionId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sessionId", fetch = FetchType.LAZY)
     private List<TblSessionQuestion> tblSessionQuestionList;
     @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
     @ManyToOne(optional = false)
