@@ -17,7 +17,7 @@
             <a href="review">Xem lại bài</a>
         </li>
         <li>
-            <a href="#">Đánh dấu</a>
+            <a href="FavoriteServlet">Đánh dấu</a>
         </li>
         <li>
             <a href="stat">Thống kê</a>
