@@ -10,7 +10,7 @@
 <%@include file="../include/header.jsp" %>
 <%@include file="../include/sidebar.jsp" %>
 <div class="center-content">
-    <h1 class="big-title">Thống kê điểm</h1>
+    <h1 class="big-title">Xem lại bài làm</h1>
     <style>
         table td {
             padding: 10px;
