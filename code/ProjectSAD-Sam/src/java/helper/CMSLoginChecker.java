@@ -22,6 +22,12 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class CMSLoginChecker {
 
+    private static CMSLoginChecker instance = null;
+    
+    // Empty constructor to prevent instance creation
+    protected CMSLoginChecker() {
+        
+    }
     private List<String> cookies;
     private final String USER_AGENT = "Mozilla/5.0";
     String loginUrl = "http://cms-hcm.fpt.edu.vn/elearning/login/index.php";
@@ -29,6 +35,13 @@ public class CMSLoginChecker {
     private final String REFERER = "http://cms-hcm.fpt.edu.vn/elearning/login/index.php";
     private static final String HOST = "cms-hcm.fpt.edu.vn";
 
+    public static CMSLoginChecker getInstance() {
+        if (instance == null) {
+            instance = new CMSLoginChecker();
+        }
+        return instance;
+    }
+    
     public boolean checkLogin(String username, String password) {
         try {
             // make sure cookies is turn on
