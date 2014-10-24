@@ -30,5 +30,8 @@
             </tr>
         </table>
     </div>
+        <p style="text-align: center; margin-top: 40px;">
+            <a class='button' href="review?action=viewDetail&id=${sessionId}">Xem lại bài</a>
+        </p>
 </div>
 <%@include file="../include/footer.jsp" %>

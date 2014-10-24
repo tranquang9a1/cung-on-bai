@@ -46,8 +46,10 @@ public class ExamPointServlet extends HttpServlet {
             double point = canculatePoint(request);
             long pointLong = Math.round(point);
             int pointInt = (int) pointLong;
+            TblSession examSession = (TblSession) request.getAttribute("examSession");
             // add point into account of user
             user.setScore(user.getScore() + pointInt);
+            request.setAttribute("sessionId", examSession.getSessionId());
             request.getRequestDispatcher(Constants.JSP_VIEWPOINT).forward(request, response);
         }
 

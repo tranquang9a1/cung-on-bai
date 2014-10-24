@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%-- 
     Document   : sidebar
     Created on : Oct 21, 2014, 5:10:04 PM
@@ -21,10 +22,15 @@
         <li>
             <a href="stat">Thống kê</a>
         </li>
+        <c:if test="${user.isAdmin == 1}">
+        <li>
+            <a style="background-color: rgba(255, 128, 128, 0.35);" href="QuestionServlet?type=viewPage&page=1&subjectId=2&action=show">Quản lý</a>
+        </li>
+        </c:if>
     </ul>
     <script>
     $(function () {
-        var activePage = location.href.split('/').splice(-1)[0];
+        var activePage = location.href.split('/').splice(-1)[0].split('?')[0];
         $('a[href=' + activePage + ']').parent().addClass('selected');
     });  
     </script>

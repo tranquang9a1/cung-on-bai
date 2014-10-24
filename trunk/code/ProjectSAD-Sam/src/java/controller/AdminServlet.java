@@ -8,11 +8,15 @@ import dao.UserDao;
 import entity.TblUser;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.StringTokenizer;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sun.misc.BASE64Decoder;
 import utils.Constants;
 
 /**
@@ -20,6 +24,15 @@ import utils.Constants;
  * @author dinhquangtrung
  */
 public class AdminServlet extends HttpServlet {
+
+    Hashtable validUsers = new Hashtable();
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        // ie this user has no password  
+        validUsers.put("admin:admin", "allowed");
+    }
 
     /**
      * Processes requests for both HTTP
@@ -34,24 +47,54 @@ public class AdminServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("create")) {
-                createNewUser(request, response);
-            } else if (action.equals("delete")) {
-                deleteUser(request, response);
-            } else if (action.equals("setadmin")) {
-                setAdmin(request, response, 1);
-            } else if (action.equals("removeadmin")) {
-                setAdmin(request, response, 0);
-                   
-            } else {
-                // Redirect to default page
-                response.sendRedirect(Constants.URL_ADMIN);
+        boolean valid = false;
+        
+        try {
+            String username = null;
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null) {
+                StringTokenizer st = new StringTokenizer(authHeader);
+                String basic = st.nextToken();
+                if (basic.equalsIgnoreCase("Basic")) {
+                    String credential = st.nextToken();
+                    BASE64Decoder decoder = new BASE64Decoder();
+                    String userpass = new String(decoder.decodeBuffer(credential));
+                    int p = userpass.indexOf(":");
+                    username = userpass.substring(0, p);
+                    valid = validUsers.containsKey(userpass)
+                            && validUsers.get(userpass).equals("allowed");
+                }
             }
-        } else {
-            // List all user
-            listAllUser(request, response);
+
+            if (!valid) {
+                String s = "Basic realm=\"Please login\"";
+                response.setHeader("WWW-Authenticate", s);
+                response.setStatus(401);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (valid) {
+            String action = request.getParameter("action");
+            if (action != null) {
+                if (action.equals("create")) {
+                    createNewUser(request, response);
+                } else if (action.equals("delete")) {
+                    deleteUser(request, response);
+                } else if (action.equals("setadmin")) {
+                    setAdmin(request, response, 1);
+                } else if (action.equals("removeadmin")) {
+                    setAdmin(request, response, 0);
+
+                } else {
+                    // Redirect to default page
+                    response.sendRedirect(Constants.URL_ADMIN);
+                }
+            } else {
+                // List all user
+                listAllUser(request, response);
+            }
         }
     }
 
@@ -126,7 +169,7 @@ public class AdminServlet extends HttpServlet {
                 .forward(request, response);
     }
 
-    private void deleteUser(HttpServletRequest request, 
+    private void deleteUser(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
 
         String userId = request.getParameter("id");
@@ -144,9 +187,9 @@ public class AdminServlet extends HttpServlet {
         response.sendRedirect(Constants.URL_ADMIN);
     }
 
-    private void setAdmin(HttpServletRequest request, 
+    private void setAdmin(HttpServletRequest request,
             HttpServletResponse response, int isAdmin) throws IOException {
-        
+
         String userId = request.getParameter("id");
         int id = 0;
         try {
