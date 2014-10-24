@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TblFavorite.findAll", query = "SELECT t FROM TblFavorite t"),
+    @NamedQuery(name = "TblFavorite.findByUserId", query = "SELECT t FROM TblFavorite t WHERE t.userId.userId = :userId"),
     @NamedQuery(name = "TblFavorite.findById", query = "SELECT t FROM TblFavorite t WHERE t.id = :id")})
 public class TblFavorite implements Serializable {
     private static final long serialVersionUID = 1L;
