@@ -28,8 +28,8 @@
     <table border="1">
         <tr>
             <th>#</th>
-            <th>Tài khoản</th>
-            <th>Điểm</th>
+            <th><a class="button small" href="stat?action=user">Tài khoản</a></th>
+            <th><a class="button small" href="stat?action=point">Điểm</a></th>
         </tr>
         <c:forEach var="user" items="${users}" varStatus="count">
             <tr>

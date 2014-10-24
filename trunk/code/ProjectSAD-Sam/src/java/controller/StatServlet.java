@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import utils.Constants;
+import utils.PointComparator;
+import utils.UserComparator;
 
 /**
  *
@@ -38,18 +40,7 @@ public class StatServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("viewdetail")) {
-                viewDetail(request, response);
-            } else {
-                // Redirect to default page
-                response.sendRedirect(Constants.URL_ADMIN);
-            }
-        } else {
-            // List all user
-            listAllUser(request, response);
-        }
+        listAllUser(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -100,23 +91,19 @@ public class StatServlet extends HttpServlet {
         if (user != null) {
             // User information from session
             request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
-
+            String action = request.getParameter("action");
+            if (action == null){
+               action = "point";
+            }
             UserDao dao = new UserDao();
             List<TblUser> users = dao.getAllUser();
-            Collections.sort(users, new Comparator<TblUser>() {
-                @Override
-                public int compare(TblUser user1, TblUser user2) {
-                    if (user1.getScore() < user2.getScore()) {
-                        return 1;
-                    } else {
-                        if (user1.getScore() == user2.getScore()) {
-                            return 0;
-                        } else {
-                            return -1;
-                        }
-                    }
-                }
-            });
+            Comparator comparator = null;
+            if (action.equals("point")) {
+                comparator = new PointComparator();
+            } else if (action.equals("user")) {
+                comparator = new UserComparator();
+            }
+            Collections.sort(users, comparator);
             request.setAttribute("users", users);
             request.setAttribute("title", "Thống kê");
             request.getRequestDispatcher(Constants.JSP_STAT)
