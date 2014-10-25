@@ -35,27 +35,28 @@ public class FavoriteServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+
         HttpSession session = request.getSession(true);
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         if (user == null) {
             response.sendRedirect(Constants.URL_USER);
-        } else {
-            
-        
-            UserDao userDao = new UserDao();
-            // User information from session
-            request.setAttribute("user", userDao.findById(TblUser.class, user.getUserId()));
-            
-            int userId = user.getUserId();
+        }
+        if (user != null) {
             FavoriteDao dao = new FavoriteDao();
-            List<TblFavorite> lst = dao.findByUserId(userId);
-            request.setAttribute("lstFavorite", lst);
-            request.getRequestDispatcher(Constants.JSP_VIEWFAVORITEQUESTION).forward(request, response);
-            
-            
-        }     
-            
+            String action = request.getParameter("action");
+            if (action == null || action.isEmpty()) {
+                //list all favorite question of user
+                int userId = user.getUserId();
+                List<TblFavorite> lst = dao.findByUserId(userId);
+                request.setAttribute("lstFavorite", lst);
+                request.getRequestDispatcher(Constants.JSP_VIEWFAVORITEQUESTION).forward(request, response);
+            } else if (action.equals("delete")) {
+                //delete favorite list
+                String[] lstFavoriteId = request.getParameterValues("favorite");
+                dao.removeFavoriteQuestion(lstFavoriteId);
+              response.sendRedirect(Constants.ULR_FAVORITE);
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -98,5 +99,4 @@ public class FavoriteServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
 }
