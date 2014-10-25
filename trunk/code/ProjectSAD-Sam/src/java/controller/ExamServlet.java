@@ -5,6 +5,7 @@
 package controller;
 
 import dao.AnswerDao;
+import dao.FavoriteDao;
 import dao.QuestionDao;
 import dao.SessionDao;
 import dao.SessionQuestionDao;
@@ -64,6 +65,12 @@ public class ExamServlet extends HttpServlet {
                             forward(request, response);
                 } // end of if action start
                 if (action.equals("submit")) {
+                    //book mark question
+                    String[] favoriteIds = request.getParameterValues("favorite");
+                    if (favoriteIds != null && favoriteIds.length > 0) {
+                        FavoriteDao dao = new FavoriteDao();
+                        dao.insertFavoriteQuestion(user, favoriteIds);
+                    }
                     submit(request, response);
                     // after submit, remove lstDecorator of session
                     session.removeAttribute("lstDecorator");
@@ -126,36 +133,36 @@ public class ExamServlet extends HttpServlet {
         String stringQuestion = request.getParameter("numberQuestion");
         if (stringSubject == null || stringSubject.isEmpty()
                 && stringQuestion == null || stringQuestion.isEmpty()) {
-            request.setAttribute(Constants.CONST_MESSAGE, Constants.MESSAGE_WRONGINPUT );
+            request.setAttribute(Constants.CONST_MESSAGE, Constants.MESSAGE_WRONGINPUT);
             request.setAttribute(Constants.CONST_BACKURL, Constants.JSP_ERROR);
         } else {
-        int numberQuestion = 0;
-        int subjectId = 0;
-        try {
-            numberQuestion = Integer.parseInt(stringQuestion);
-            subjectId = Integer.parseInt(stringSubject);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+            int numberQuestion = 0;
+            int subjectId = 0;
+            try {
+                numberQuestion = Integer.parseInt(stringQuestion);
+                subjectId = Integer.parseInt(stringSubject);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            QuestionDao daoQuestion = new QuestionDao();
+            //random list of question
+            List<TblQuestion> lstQuestion =
+                    daoQuestion.getListRandom(numberQuestion, subjectId);
+            List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
+            //user decorator partern
+            List<DecoratorQuestion> lstDecorator = new ArrayList<DecoratorQuestion>();
+            for (int i = 0; i < lstQuestion.size(); i++) {
+                TblQuestion question = lstQuestion.get(i);
+                String type = lstType.get(i);
+                DecoratorQuestion decoratorQuestion = new DecoratorQuestion(type, question);
+                lstDecorator.add(decoratorQuestion);
+            }
+            session.setAttribute("lstDecorator", lstDecorator);
+            long startTime = new Date().getTime();
+            request.setAttribute("startTime", startTime);
+            request.setAttribute("lstDecorator", lstDecorator);
         }
-        QuestionDao daoQuestion = new QuestionDao();
-        //random list of question
-        List<TblQuestion> lstQuestion =
-                daoQuestion.getListRandom(numberQuestion, subjectId);
-        List<String> lstType = ExamUtils.checkTypeQuestion(lstQuestion);
-        //user decorator partern
-        List<DecoratorQuestion> lstDecorator = new ArrayList<DecoratorQuestion>();
-        for (int i = 0; i < lstQuestion.size(); i++) {
-            TblQuestion question = lstQuestion.get(i);
-            String type = lstType.get(i);
-            DecoratorQuestion decoratorQuestion = new DecoratorQuestion(type, question);
-            lstDecorator.add(decoratorQuestion);
-        }
-        session.setAttribute("lstDecorator", lstDecorator);
-        long startTime = new Date().getTime();
-        request.setAttribute("startTime", startTime);
-        request.setAttribute("lstDecorator", lstDecorator);
-        }
-       
+
     }
 
     private void submit(HttpServletRequest request, HttpServletResponse response)
