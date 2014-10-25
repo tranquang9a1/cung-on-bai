@@ -42,6 +42,10 @@ public class FavoriteServlet extends HttpServlet {
             response.sendRedirect(Constants.URL_USER);
         }
         if (user != null) {
+            UserDao daoUser = new UserDao();
+            // User information from session
+            request.setAttribute("user", daoUser.findById(TblUser.class, user.getUserId()));
+            
             FavoriteDao dao = new FavoriteDao();
             String action = request.getParameter("action");
             if (action == null || action.isEmpty()) {

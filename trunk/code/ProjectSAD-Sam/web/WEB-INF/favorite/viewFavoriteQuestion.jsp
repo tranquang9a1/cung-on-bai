@@ -10,15 +10,15 @@
 
 <%@include file="../include/sidebar.jsp" %>
     <div class="center-content">
-        <div id="scroll-div" class="wide">
+        <h1 class="big-title">Các câu hỏi đã đánh dấu</h1>
+                <form id="delete-bookmark" action="FavoriteServlet" method="POST">
+        <div id="scroll-div" class="wide" style="height: 400px">
             <div class="exam-session">
-                <form action="FavoriteServlet" method="POST">
-                    <input type="submit" value="Xóa bookmark"/>
                     <input type="text" name="action" value="delete" hidden="true"/>  
                      <c:forEach var="favorite" items="${lstFavorite}" varStatus="index">
                          <div class="amPmCheckbox">
                             <input type="checkbox" name="favorite" id="chk${favorite.id}" value="${favorite.id}"/>
-                            <lable for="chk${favorite.id}">Câu hỏi ${index.count}:</lable>${favorite.questionId.content}
+                            <lable for="chk${favorite.id}"></lable>${favorite.questionId.content}
                          </div>
                     <c:forEach var="answer"
                                items="${favorite.questionId.tblAnswerList}" varStatus="indexAnswer">
@@ -29,9 +29,10 @@
                     <br/>
                     <br/>
                 </c:forEach>
-                </form>
             </div>
         </div>
+                    <a href="#" class="button small" onclick="$('#delete-bookmark').submit()">Bỏ đánh dấu các câu đã chọn</a>
+                </form>
         <p style="text-align: center; margin-top: 40px;">
             <a class='button' href="home">Quay lại</a>
         </p>
