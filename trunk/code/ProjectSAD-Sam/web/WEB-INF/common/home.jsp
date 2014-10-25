@@ -37,16 +37,16 @@
         <br/>
         <br/>
         <br/>
-        <div style="display: none" id="message1">
-            <p style="color: red; padding: 10px; 
+         <div style="display: none" id="message1">
+            <p style="color: red; padding: 8px; 
                background: #fff; margin: 10px; border-radius: 5px;">
                 Vui lòng nhập lại số câu hỏi trong khoảng từ 1 đến 60</p>
         </div>
     </div>
-    
-        <div style="display: none; color: red; padding: 10px; 
-               background: #fff; margin: 10px; border-radius: 5px;" id="message">
-            <p style="color: red">Chưa có dữ liệu cho môn học này, vui lòng chọn môn học khác</p></div>
+    <div style="display: none" id="message">
+            <p style="color: red; padding: 8px; 
+               background: #fff; margin: 10px; border-radius: 5px;">
+                Chưa có dữ liệu cho môn học này, vui lòng chọn môn học khác</p></div>
 </div>
 <form action="ExamServlet" method="post" id='choose-subject-form' style="display: none">
     <input type="hidden" id='txtSubject' name="subject"/>
