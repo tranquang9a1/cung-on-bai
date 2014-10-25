@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.UserDao;
 import entity.TblSession;
 import entity.TblSessionQuestion;
 import entity.TblUser;
@@ -42,6 +43,11 @@ public class ExamPointServlet extends HttpServlet {
         if (user == null) {
             response.sendRedirect(Constants.URL_USER);
         } else {
+            
+        
+            UserDao userDao = new UserDao();
+            // User information from session
+            request.setAttribute("user", userDao.findById(TblUser.class, user.getUserId()));
             // canculate point of Sesion completed
             double point = canculatePoint(request);
             long pointLong = Math.round(point);

@@ -14,8 +14,8 @@
         <div id="scroll-div" class="wide">
             <div class="exam-session">
                 <c:forEach var="question" items="${lstDecorator}" varStatus="index">
-                    <div style="margin: 10px 0"><b>Câu hỏi ${index.count}:</b> ${question.question.content} 
-                        <input type="checkbox" name="favorite" value="${question.question.questionId}"/>
+                    <div style="margin: 10px 0"><input type="checkbox" name="favorite" value="${question.question.questionId}"/> <b>Câu hỏi ${index.count}:</b> ${question.question.content} 
+                        
                     </div>
                     <c:forEach var="answer"
                                items="${question.question.tblAnswerList}" varStatus="indexAnswer">

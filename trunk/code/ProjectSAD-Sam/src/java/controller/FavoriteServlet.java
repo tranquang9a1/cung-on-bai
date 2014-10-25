@@ -5,6 +5,7 @@
 package controller;
 
 import dao.FavoriteDao;
+import dao.UserDao;
 import entity.TblFavorite;
 import entity.TblUser;
 import java.io.IOException;
@@ -40,6 +41,12 @@ public class FavoriteServlet extends HttpServlet {
         if (user == null) {
             response.sendRedirect(Constants.URL_USER);
         } else {
+            
+        
+            UserDao userDao = new UserDao();
+            // User information from session
+            request.setAttribute("user", userDao.findById(TblUser.class, user.getUserId()));
+            
             int userId = user.getUserId();
             FavoriteDao dao = new FavoriteDao();
             List<TblFavorite> lst = dao.findByUserId(userId);

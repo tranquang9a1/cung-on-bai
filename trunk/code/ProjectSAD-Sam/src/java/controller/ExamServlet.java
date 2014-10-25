@@ -9,6 +9,7 @@ import dao.QuestionDao;
 import dao.SessionDao;
 import dao.SessionQuestionDao;
 import dao.SubjectDao;
+import dao.UserDao;
 import entity.DecoratorQuestion;
 import entity.TblAnswer;
 import entity.TblQuestion;
@@ -117,7 +118,10 @@ public class ExamServlet extends HttpServlet {
     private void start(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
+        TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
+            UserDao dao = new UserDao();
+            // User information from session
+            request.setAttribute("user", dao.findById(TblUser.class, user.getUserId()));
         String stringSubject = request.getParameter("subject");
         String stringQuestion = request.getParameter("numberQuestion");
         if (stringSubject == null || stringSubject.isEmpty()

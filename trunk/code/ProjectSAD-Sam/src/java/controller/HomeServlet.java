@@ -6,6 +6,7 @@ package controller;
 
 import dao.QuestionDao;
 import dao.SubjectDao;
+import dao.UserDao;
 import entity.TblQuestion;
 import entity.TblSubject;
 import entity.TblUser;
@@ -40,8 +41,9 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         if (user != null) {
+            UserDao dao = new UserDao();
             // User information from session
-            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
+            request.setAttribute("user", dao.findById(TblUser.class, user.getUserId()));
 
             // Get subjects
             SubjectDao daoSubject = new SubjectDao();

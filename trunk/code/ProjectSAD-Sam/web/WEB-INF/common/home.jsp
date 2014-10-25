@@ -27,8 +27,6 @@
             </c:forEach>
         </ul>
         </br>
-        <div style="display: none" id="message">
-            <p style="color: red">Chưa có dữ liệu cho môn học này, vui lòng chọn môn học khác</p></div>
         <div style="display: none" id='question-num-select' class="selected-subject">
             <h1 class='big-title' style='color: rgb(5, 221, 255);'>Môn học: <span id='selected-subject'>POA</span></h1>
             <p><h1 style="text-align: center">Số lượng câu hỏi: &nbsp;&nbsp;
@@ -45,6 +43,10 @@
                 Vui lòng nhập lại số câu hỏi trong khoảng từ 1 đến 60</p>
         </div>
     </div>
+    
+        <div style="display: none; color: red; padding: 10px; 
+               background: #fff; margin: 10px; border-radius: 5px;" id="message">
+            <p style="color: red">Chưa có dữ liệu cho môn học này, vui lòng chọn môn học khác</p></div>
 </div>
 <form action="ExamServlet" method="post" id='choose-subject-form' style="display: none">
     <input type="hidden" id='txtSubject' name="subject"/>
