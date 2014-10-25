@@ -33,7 +33,9 @@ public abstract class BaseDao<T> {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         }
         return type;
     }
@@ -50,7 +52,9 @@ public abstract class BaseDao<T> {
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
 //            System.out.println(e.getMessage());
         }
         return type;
@@ -61,14 +65,16 @@ public abstract class BaseDao<T> {
             em.getTransaction().begin();
             em.remove(type);
             em.getTransaction().commit();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            em.getTransaction().rollback();
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
         }
     }
 
-    public T findById(Class<T> T,int id) {
-      return  (T) em.find(T, id);
+    public T findById(Class<T> T, int id) {
+        return (T) em.find(T, id);
     }
 }

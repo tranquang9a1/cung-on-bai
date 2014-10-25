@@ -22,6 +22,11 @@ public class Constants {
     public static final String JSP_SUBJECT = "WEB-INF/subject/createSubject.jsp";
     public static final String JSP_CREATESUBJECT = "WEB-INF/subject/createSubject.jsp";
     public static final String JSP_EXAMSESSION = "WEB-INF/exam/examSession.jsp";
+    public static final String JSP_CHOOSESUBJECT = "WEB-INF/question/chooseSubjectView.jsp";
+    public static final String JSP_INSERTQUESTION = "WEB-INF/question/insertQuestion.jsp";
+    public static final String JSP_QUESTIONADMINVIEW = "WEB-INF/question/questionAdminView.jsp";
+    public static final String JSP_QUESTIONDETAILADMINVIEW = "WEB-INF/question/questionDetailAdminView.jsp";
+    public static final String JSP_UPDATEQUESTION = "WEB-INF/exam/chooseSubjectView.jsp";
     public static final String URL_POINT = "point";
     public static final String JSP_VIEWPOINT = "WEB-INF/exam/viewPoint.jsp";
     public static final String JSP_STAT = "WEB-INF/user/stat.jsp";

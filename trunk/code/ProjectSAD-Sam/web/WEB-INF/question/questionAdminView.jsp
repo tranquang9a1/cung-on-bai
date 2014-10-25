@@ -7,7 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@include file="adminInclude/header.jsp" %>
+<%@include file="../adminInclude/header.jsp" %>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
@@ -117,4 +117,4 @@
             $('.page-link-${param.page}').removeClass('btn-default').addClass('btn-success');
         });
     </script>
-    <%@include file="adminInclude/footer.jsp" %>
+    <%@include file="../adminInclude/footer.jsp" %>
