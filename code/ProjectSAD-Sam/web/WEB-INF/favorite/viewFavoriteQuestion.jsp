@@ -9,22 +9,6 @@
 <%@include file="../include/header.jsp" %>
 
 <%@include file="../include/sidebar.jsp" %>
- <style>
-            .amPmCheckbox input[type="checkbox"] {
-                display: none;
-            }
-            .amPmCheckbox input[type="checkbox"] + label {  
-                font-size: 20px;
-                background: url('img/unfavorite.png') no-repeat;
-                background-size: 20px,20px;
-                padding-left: 100px;
-            }
-            .amPmCheckbox input[type="checkbox"]:checked + label {
-                background: url('img/favorite.png')  no-repeat;
-                background-size: 20px,20px;
-                padding-left: 100px;
-            }
-        </style>
     <div class="center-content">
         <div id="scroll-div" class="wide">
             <div class="exam-session">
