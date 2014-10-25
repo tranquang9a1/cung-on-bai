@@ -105,10 +105,4 @@ public class AnswerDao extends BaseDao<TblAnswer> {
             update(answer);
         }
     }
-
-    public TblAnswer findWrongAnswerByQuestionId(int questionId) {
-        Query query = em.createNamedQuery("TblAnswer.findWrongAnswerByQuestionId");
-        query.setParameter("questionId", questionId);
-        return (TblAnswer) query.getResultList().get(0);
-    }
 }
