@@ -21,7 +21,7 @@
         <div style="color: white;
              padding: 15px 50px 5px 50px;
              float: right;
-             font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+             font-size: 16px;"><a href="user" class="btn btn-danger square-btn-adjust">Back to home</a> </div>
     </nav>   
     <!-- /. NAV TOP  -->
     <nav class="navbar-default navbar-side" role="navigation">
@@ -105,7 +105,7 @@
 
 <script>
     function deleteSubject(id) {
-        if (confirm('Bạn chắc chắn?')) {
+        if (confirm('Are you sure?')) {
             location.href = "?action=delete&id=" + id;
         }
     }

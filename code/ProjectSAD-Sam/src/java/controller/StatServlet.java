@@ -90,12 +90,13 @@ public class StatServlet extends HttpServlet {
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         if (user != null) {
             // User information from session
-            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
+            UserDao dao = new UserDao();
+            // User information from session
+            request.setAttribute("user", dao.findById(TblUser.class, user.getUserId()));
             String action = request.getParameter("action");
             if (action == null){
                action = "point";
             }
-            UserDao dao = new UserDao();
             List<TblUser> users = dao.getAllUser();
             Comparator comparator = null;
             if (action.equals("point")) {

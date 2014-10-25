@@ -6,6 +6,7 @@ package controller;
 
 import dao.SessionDao;
 import dao.SessionQuestionDao;
+import dao.UserDao;
 import entity.DecoratorQuestion;
 import entity.TblQuestion;
 import entity.TblSession;
@@ -49,7 +50,9 @@ public class ReviewServlet extends HttpServlet {
         // Check if user is already logged in, redirect to home page
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
         if (user != null) {
-            request.setAttribute("user", session.getAttribute(Constants.VAR_SESSION_USER));
+            UserDao dao = new UserDao();
+            // User information from session
+            request.setAttribute("user", dao.findById(TblUser.class, user.getUserId()));
             String action = request.getParameter("action");
             if (action != null) {
                 if (action.equals("viewDetail")) {
