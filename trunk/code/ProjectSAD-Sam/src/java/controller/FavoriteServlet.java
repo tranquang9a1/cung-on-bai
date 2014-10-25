@@ -57,8 +57,10 @@ public class FavoriteServlet extends HttpServlet {
             } else if (action.equals("delete")) {
                 //delete favorite list
                 String[] lstFavoriteId = request.getParameterValues("favorite");
-                dao.removeFavoriteQuestion(lstFavoriteId);
-              response.sendRedirect(Constants.ULR_FAVORITE);
+                if (lstFavoriteId != null && lstFavoriteId.length > 0) {
+                    dao.removeFavoriteQuestion(lstFavoriteId);
+                }
+                response.sendRedirect(Constants.ULR_FAVORITE);
             }
         }
     }
