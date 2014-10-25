@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="leftmenu">
-    <h1 id="profile">Xin chào, ${user.username}!<br/>Bạn có <b>${user.score} điểm</b></h1>
+    <h1 id="profile">Xin chào, ${sessionScope.user.username}!<br/>Bạn có <b>${sessionScope.user.score} điểm</b></h1>
     <ul class="menu">
         <li>
             <a href="home">Ôn bài</a>
@@ -22,7 +22,7 @@
         <li>
             <a href="stat">Thống kê</a>
         </li>
-        <c:if test="${user.isAdmin == 1}">
+        <c:if test="${sessionScope.user.isAdmin == 1}">
         <li>
             <a style="background-color: rgba(255, 128, 128, 0.35);" href="QuestionServlet?type=viewPage&page=1&subjectId=2&action=show">Quản lý</a>
         </li>
