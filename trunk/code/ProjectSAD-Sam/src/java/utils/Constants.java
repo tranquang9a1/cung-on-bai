@@ -30,5 +30,7 @@ public class Constants {
     public static final String MESSAGE_WRONGINPUT = "Bạn đã nhập sai thông tin. Vui lòng kiểm tra lại";
     public static final String JSP_REVIEW = "WEB-INF/user/review.jsp";
     public static final String JSP_REVIEWEXAM = "WEB-INF/exam/reviewExam.jsp";
-    public static final String JSP_VIEWFAVORITEQUESTION = "WEB-INF/viewFavoriteQuestion.jsp";
+    public static final String JSP_VIEWFAVORITEQUESTION = "WEB-INF/favorite/viewFavoriteQuestion.jsp";
+     public static final String ULR_FAVORITE = "FavoriteServlet";
+    
 }
