@@ -235,3 +235,14 @@ div#chat-content b {
     overflow: hidden;
     font-size: 10px;
 }
+.amPmCheckbox input[type="checkbox"] {
+    display: none;
+}
+.amPmCheckbox input[type="checkbox"] + label {  
+    background: url('img/unfavorite.png') no-repeat;
+    background-size: 20px,20px;
+}
+.amPmCheckbox input[type="checkbox"]:checked + label {
+    background: url('img/favorite.png')  no-repeat;
+    background-size: 20px,20px;
+}
