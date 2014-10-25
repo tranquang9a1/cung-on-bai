@@ -24,7 +24,7 @@
         </li>
         <c:if test="${user.isAdmin == 1}">
         <li>
-            <a style="background-color: rgba(255, 128, 128, 0.35);" href="QuestionServlet?type=viewPage&page=1&subjectId=2&action=show">Quản lý</a>
+            <a style="background-color: rgba(255, 128, 128, 0.35);" href="QuestionServlet?action=show&type=chooseSubject">Quản lý</a>
         </li>
         </c:if>
     </ul>

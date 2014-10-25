@@ -22,7 +22,7 @@
         <div style="color: white;
              padding: 15px 50px 5px 50px;
              float: right;
-             font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="#" class="btn btn-danger square-btn-adjust">Logout</a> </div>
+             font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="user?action=logout" class="btn btn-danger square-btn-adjust">Logout</a> </div>
     </nav>   
     <!-- /. NAV TOP  -->
     <nav class="navbar-default navbar-side" role="navigation">
@@ -32,7 +32,7 @@
                     <img src="adminResource/img/find_user.png" class="user-image img-responsive"/>
                 </li>
                 <li  >
-                    <a class="active-menu"  href="blank.html"><i class="fa fa-square-o fa-3x"></i>Question Management</a>
+                    <a class="active-menu"  href="QuestionServlet?action=show&type=chooseSubject"><i class="fa fa-square-o fa-3x"></i>Question Management</a>
                 </li>	
                 <li  >
                     <a href="SubjectServlet"><i class="fa fa-square-o fa-3x"></i>Subject Management</a>
@@ -112,7 +112,7 @@
     <script>
         $(function() {
             for (var i = 1; i <= ${number}; i++) {
-                $('.question-pages').append('<a class="page-link-' + i + ' btn btn-default" href="QuestionServlet?action=show&type=viewQuestion&page=' + i + '&subjectId=${param.subjectId}">' + i + '</a>')
+                $('.question-pages').append('<a class="page-link-' + i + ' btn btn-default" href="QuestionServlet?action=show&type=viewPage&page=' + i + '&subjectId=${param.subjectId}">' + i + '</a>')
             }
             $('.page-link-${param.page}').removeClass('btn-default').addClass('btn-success');
         });
