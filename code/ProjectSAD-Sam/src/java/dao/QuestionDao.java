@@ -6,7 +6,6 @@ package dao;
 
 import static dao.BaseDao.em;
 import entity.TblQuestion;
-import entity.TblSubject;
 import java.util.List;
 import javax.persistence.Query;
 import utils.common;
