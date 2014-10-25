@@ -7,6 +7,7 @@ package controller;
 
 import dao.SubjectDao;
 import entity.TblSubject;
+import entity.TblUser;
 import java.io.IOException;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -16,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import utils.Constants;
 
 /**
@@ -37,7 +39,10 @@ public class SubjectServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        if(authen(request, response)==1){
+            response.sendRedirect(Constants.URL_USER);
+            return;
+        }
         String action = request.getParameter("action");
         if (action != null) {
             if (action.equals("create")) {
@@ -138,7 +143,18 @@ public class SubjectServlet extends HttpServlet {
                     .forward(request, response);
         }
     }
-
+    protected int authen(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
+        if(user==null) {
+            return 1;
+        } 
+        if(user.getIsAdmin()!=1) {
+            return 1;
+        }
+        return 0;
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP

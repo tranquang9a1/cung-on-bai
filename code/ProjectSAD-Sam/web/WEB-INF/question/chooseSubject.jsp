@@ -6,7 +6,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="adminInclude/header.jsp" %>
+<%@include file="../adminInclude/header.jsp" %>
 <div class="box-center">
     <h1>Manage Question</h1>
     <form action="QuestionServlet" method="GET">
@@ -26,4 +26,4 @@
         <br><br><input type="submit" value="insertQuestion" name="action" class="btn btn-primary"/>
     </form>
 </div>
-<%@include file="adminInclude/footer.jsp" %>
+<%@include file="../adminInclude/footer.jsp" %>
