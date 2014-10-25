@@ -55,7 +55,7 @@ public class QuestionServlet extends HttpServlet {
                 SubjectDao subjectDao = new SubjectDao();
                 List<TblSubject> tblSubjects = subjectDao.getListAllSubject();
                 request.setAttribute("subjects", tblSubjects);
-                request.getRequestDispatcher("WEB-INF/chooseSubjectView.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/question/chooseSubjectView.jsp").forward(request, response);
                 return;
             }
             if (type.equals("viewPage")) {
@@ -83,7 +83,7 @@ public class QuestionServlet extends HttpServlet {
                 int count = questionDao.getCountListQuestion(id) / common.page;
                 request.setAttribute("questions", questions);
                 request.setAttribute("number", count);
-                request.getRequestDispatcher("WEB-INF/questionAdminView.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/question/questionAdminView.jsp").forward(request, response);
                 return;
             }
         }
@@ -99,7 +99,7 @@ public class QuestionServlet extends HttpServlet {
             }
             TblQuestion question = questionDao.findById(TblQuestion.class, id);
             request.setAttribute("question", question);
-            request.getRequestDispatcher("WEB-INF/questionDetailAdminView.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/question/questionDetailAdminView.jsp").forward(request, response);
             return;
         }
         if (action.equals("insertQuestion")) {
@@ -127,7 +127,7 @@ public class QuestionServlet extends HttpServlet {
                 }
                 TblSubject subject = subjectDao.findById(TblSubject.class, id);
                 request.setAttribute("subject", subject);
-                request.getRequestDispatcher("WEB-INF/insertQuestion.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/question/insertQuestion.jsp").forward(request, response);
 //                response.sendRedirect("WEB-INF/insertQuestion.jsp?subjectId="+subjectId+"&subjectName="+subject.getSubjectName());
                 return;
             }
@@ -203,7 +203,7 @@ public class QuestionServlet extends HttpServlet {
                 QuestionDao questionDao = new QuestionDao();
                 TblQuestion tblQuestion = questionDao.findById(TblQuestion.class, id);
                 request.setAttribute("question", tblQuestion);
-                request.getRequestDispatcher("WEB-INF/updateQuestion.jsp").forward(request, response);
+                request.getRequestDispatcher("WEB-INF/question/updateQuestion.jsp").forward(request, response);
                 return;
             }
             if (type.equals("mergeQuestion")) {
