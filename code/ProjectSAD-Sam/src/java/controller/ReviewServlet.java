@@ -7,7 +7,7 @@ package controller;
 import dao.SessionDao;
 import dao.SessionQuestionDao;
 import dao.UserDao;
-import helper.DecoratorQuestion;
+import entity.DecoratorQuestion;
 import entity.TblQuestion;
 import entity.TblSession;
 import entity.TblSessionQuestion;

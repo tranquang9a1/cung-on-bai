@@ -8,7 +8,7 @@ import static dao.BaseDao.em;
 import entity.TblQuestion;
 import java.util.List;
 import javax.persistence.Query;
-import utils.common;
+import utils.QuestionUtils;
 
 /**
  *
@@ -20,10 +20,10 @@ public class QuestionDao extends BaseDao<TblQuestion> {
         Query query = null;
         query = em.createNamedQuery("TblQuestion.findBySubjectId");
         query.setParameter("subjectId", subject);
-        if(from < 1) {
+        if (from < 1) {
             from = 1;
         }
-        query.setFirstResult((from-1)*common.page);
+        query.setFirstResult((from - 1) * QuestionUtils.page);
         query.setMaxResults(to);
         return query.getResultList();
     }
@@ -34,7 +34,7 @@ public class QuestionDao extends BaseDao<TblQuestion> {
         query.setParameter("subjectId", subject);
         return ((Long) query.getSingleResult()).intValue();
     }
-    
+
     public List<TblQuestion> getListRandom(int number, int subjectID) {
         Query query = em.createNamedQuery("TblQuestion.findRandom");
         query.setParameter("subjectId", subjectID);
@@ -47,5 +47,6 @@ public class QuestionDao extends BaseDao<TblQuestion> {
         query.setParameter("subjectId", subjectId);
         return query.getResultList();
     }
+
     
 }
