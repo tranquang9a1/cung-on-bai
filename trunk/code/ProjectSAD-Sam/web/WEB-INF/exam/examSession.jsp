@@ -17,6 +17,7 @@
                         <input type="checkbox" class="css-checkbox" name="favorite" id="chk-${question.question.questionId}" value="${question.question.questionId}"/>
                         <label class="css-label" for="chk-${question.question.questionId}"></label>
                         <lable for="chk"><b>Câu hỏi ${index.count}:</b></lable>${question.question.content} 
+                        </br>
                     <c:forEach var="answer"
                                items="${question.question.tblAnswerList}" varStatus="indexAnswer">
                         <c:choose>
