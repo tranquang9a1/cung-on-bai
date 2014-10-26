@@ -26,12 +26,11 @@
                             <input type="checkbox" name="favorite" class="css-checkbox" id="chk-${favorite.id}" value="${favorite.id}"/>
                             <label class="css-label" for="chk-${favorite.id}"></label>
                             <lable for="chk-${favorite.id}"></lable>${favorite.questionId.content}
+                            </br>
                     <c:forEach var="answer"
                                items="${favorite.questionId.tblAnswerList}" varStatus="indexAnswer">
-                        <b style="color: blue; display: inline-block; width: 30px;"></b> ${answer.content} </br>
+                        <b style="color: blue; display: inline-block; width: 30px;"></b>${indexAnswer.count} ${answer.content} </br>
                     </c:forEach>
-                    <br/>
-                    <br/>
                     <br/>
                     <br/>
                 </c:forEach>
