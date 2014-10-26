@@ -11,7 +11,7 @@ import dao.SessionDao;
 import dao.SessionQuestionDao;
 import dao.SubjectDao;
 import dao.UserDao;
-import helper.DecoratorQuestion;
+import entity.DecoratorQuestion;
 import entity.TblAnswer;
 import entity.TblQuestion;
 import entity.TblSession;

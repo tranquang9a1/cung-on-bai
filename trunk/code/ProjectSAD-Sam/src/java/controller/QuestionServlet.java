@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import utils.Constants;
-import utils.common;
+import utils.QuestionUtils;
 
 /**
  *
@@ -39,14 +39,15 @@ public class QuestionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(authen(request, response)==1) {
+        if (authen(request, response) == 1) {
             response.sendRedirect(Constants.URL_USER);
             return;
         }
         String action = request.getParameter("action");
         // action = null redirect to 404
         if (action == null) {
-            response.sendRedirect(Constants.JSP_ERROR);
+            request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
+//            response.sendRedirect(Constants.JSP_ERROR);
             return;
         }
         // Show question ( admin module)
@@ -62,7 +63,7 @@ public class QuestionServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(questionId);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             }
             TblQuestion question = questionDao.findById(TblQuestion.class, id);
@@ -87,16 +88,16 @@ public class QuestionServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(questionId);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             } catch (NullPointerException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             }
 
             QuestionDao questionDao = new QuestionDao();
             questionDao.remove(questionDao.findById(TblQuestion.class, id));
-            response.sendRedirect("QuestionServlet?action=show&page=0&subjectId=" + subjectId);
+            response.sendRedirect("QuestionServlet?action=show&page=0&type=viewPage&subjectId=" + subjectId);
             return;
         }
     }
@@ -146,7 +147,7 @@ public class QuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         String type = request.getParameter("type");
         if (type == null) {
-            response.sendRedirect(Constants.JSP_ERROR);
+            request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
             return;
         }
         if (type.equals("chooseSubject")) {
@@ -166,19 +167,19 @@ public class QuestionServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(subjectId);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             }
             int page = 0;
             try {
                 page = Integer.parseInt(pageTxt);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             }
 //            TblSubject tblSubject = subjectDao.findById(TblSubject.class,id );
-            List<TblQuestion> questions = questionDao.getListQuestion(id, page, common.page);
-            int count = (int) Math.ceil(  questionDao.getCountListQuestion(id) * 1.0/ common.page);
+            List<TblQuestion> questions = questionDao.getListQuestion(id, page, QuestionUtils.page);
+            int count = (int) Math.ceil(questionDao.getCountListQuestion(id) * 1.0 / QuestionUtils.page);
             request.setAttribute("questions", questions);
             request.setAttribute("number", count);
             request.getRequestDispatcher(Constants.JSP_QUESTIONADMINVIEW).forward(request, response);
@@ -190,7 +191,7 @@ public class QuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         String type = request.getParameter("type");
         if (type == null) {
-            response.sendRedirect(Constants.JSP_ERROR);
+            request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
             return;
         }
 //            if (type.equals("chooseSubject")) {
@@ -207,7 +208,8 @@ public class QuestionServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(subjectId);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
+                return;
             }
             TblSubject subject = subjectDao.findById(TblSubject.class, id);
             request.setAttribute("subject", subject);
@@ -227,10 +229,10 @@ public class QuestionServlet extends HttpServlet {
             try {
                 subjectId = Integer.parseInt(subjectIdTxt);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             } catch (NullPointerException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             }
 
@@ -238,6 +240,10 @@ public class QuestionServlet extends HttpServlet {
             while (loc > 0) {
                 questionContent.replace(loc, loc + 1, "<BR>");
                 loc = (new String(questionContent)).indexOf('\n');
+            }
+            if (QuestionUtils.checkEmpty(questionContent) == 0 || QuestionUtils.checkEmpty(answerContent) == 0) {
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
+                return;
             }
             // get Subject
             TblSubject tblSubject = subjectDao.findById(TblSubject.class, subjectId);
@@ -258,7 +264,7 @@ public class QuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         String type = request.getParameter("type");
         if (type == null) {
-            response.sendRedirect(common.errorPage);
+            request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
             return;
         }
         if (type.equals("viewUpdatePage")) {
@@ -267,10 +273,10 @@ public class QuestionServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(questionId);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             } catch (NullPointerException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             }
             QuestionDao questionDao = new QuestionDao();
@@ -291,10 +297,10 @@ public class QuestionServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(questionId);
             } catch (NumberFormatException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             } catch (NullPointerException e) {
-                response.sendRedirect(common.errorPage);
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                 return;
             }
 
@@ -303,10 +309,10 @@ public class QuestionServlet extends HttpServlet {
                 try {
                     answerId[i] = Integer.parseInt(answerIdTxt[i]);
                 } catch (NumberFormatException e) {
-                    response.sendRedirect(common.errorPage);
+                    request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                     return;
                 } catch (NullPointerException e) {
-                    response.sendRedirect(common.errorPage);
+                    request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
                     return;
                 }
             }
@@ -314,6 +320,10 @@ public class QuestionServlet extends HttpServlet {
             while (loc > 0) {
                 questionContent.replace(loc, loc + 1, "<BR>");
                 loc = (new String(questionContent)).indexOf('\n');
+            }
+            if (QuestionUtils.checkEmpty(questionContent) == 0 || QuestionUtils.checkEmpty(answerContent) == 0) {
+                request.getRequestDispatcher(Constants.JSP_ERROR).forward(request, response);
+                return;
             }
             QuestionDao questionDao = new QuestionDao();
             AnswerDao answerDao = new AnswerDao();
@@ -327,15 +337,15 @@ public class QuestionServlet extends HttpServlet {
             return;
         }
     }
-    
+
     protected int authen(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
         TblUser user = (TblUser) session.getAttribute(Constants.VAR_SESSION_USER);
-        if(user==null) {
+        if (user == null) {
             return 1;
-        } 
-        if(user.getIsAdmin()!=1) {
+        }
+        if (user.getIsAdmin() != 1) {
             return 1;
         }
         return 0;
