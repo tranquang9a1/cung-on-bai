@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 18, 2014 at 03:27 PM
+-- Generation Time: Oct 19, 2014 at 05:56 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -104,7 +104,8 @@ CREATE TABLE IF NOT EXISTS `tbl_subject` (
 CREATE TABLE IF NOT EXISTS `tbl_user` (
 `user_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `score` int(11) NOT NULL
+  `score` int(11) NOT NULL,
+  `is_admin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
